@@ -8,8 +8,10 @@
  *   npm run collect -- --source bcch-bde --find cpi [--frequency MONTHLY]
  *   npm run collect -- --source banrep-sdmx [--since …]          (open SDMX API, no token)
  *   npm run collect -- --source banrep-sdmx --find all          (bilingual dataflow search)
+ *   npm run collect -- --source bcch-sdmx                       (open SDMX, no token)
  *
- * Defaults: one-month window ending now (the backfill target), data in .data/collect.
+ * Defaults: documents look back one month (the backfill target); statistics look back two
+ * years of reference periods (releases lag periods). Data in .data/collect.
  * Refuses inactive/blocked sources unless --allow-inactive is given.
  * Exit codes: 0 succeeded/quiet, 2 partial, 3 blocked, 1 failed or usage error.
  * Spend: none beyond outbound requests, which are paced and capped per source.
@@ -43,6 +45,7 @@ const {values} = parseArgs({
   },
 });
 
+const STATISTICS_CONNECTORS = new Set(['bcch-bde', 'banrep-sdmx', 'bcch-sdmx']);
 const EXIT: Record<RunStatus, number> = {succeeded: 0, succeeded_quiet: 0, partial: 2, blocked: 3, failed: 1};
 
 async function main(): Promise<number> {
@@ -62,13 +65,18 @@ async function main(): Promise<number> {
   }
 
   const until = values.until ? endOfDay(values.until) : new Date();
-  const since = values.since ? new Date(`${values.since}T00:00:00Z`) : new Date(until.getTime() - 30 * 86_400_000);
+  // Documents: the window is publication time (default one month, the backfill target).
+  // Statistics: the window is reference periods, and releases lag them (Q2 GDP appears in
+  // August), so look back two years; only new or revised values are stored.
+  const statistics = STATISTICS_CONNECTORS.has(entry.connector.type);
+  const defaultDays = statistics ? 730 : 30;
+  const since = values.since ? new Date(`${values.since}T00:00:00Z`) : new Date(until.getTime() - defaultDays * 86_400_000);
   if (Number.isNaN(since.getTime()) || Number.isNaN(until.getTime()) || since > until) {
     console.error('invalid --since/--until (use YYYY-MM-DD)');
     return 1;
   }
 
-  if (entry.connector.type === 'bcch-bde' || entry.connector.type === 'banrep-sdmx') {
+  if (statistics) {
     const token = entry.connector.type === 'bcch-bde' ? (process.env[entry.connector.tokenEnv] ?? null) : null;
     const http = httpClientFor(entry, {secretValues: token ? [token] : []});
 
@@ -88,7 +96,7 @@ async function main(): Promise<number> {
         candidates = concepts.map((c) =>
           findSeries(catalog.value, c).map(({record, matchedIn}) => ({id: record.seriesId, matchedIn, es: record.titleEs, en: record.titleEn})),
         );
-      } else {
+      } else if (entry.connector.type === 'banrep-sdmx') {
         const flows = await new BanrepSdmxClient({http, sourceId: entry.id, baseUrl: entry.connector.baseUrl}).listDataflows();
         if (!flows.ok) {
           console.error(JSON.stringify(flows.problem, null, 2));
@@ -97,6 +105,9 @@ async function main(): Promise<number> {
         candidates = concepts.map((c) =>
           findDataflows(flows.dataflows, c).map(({record, matchedIn}) => ({id: record.id, matchedIn, es: record.nameEs, en: record.nameEn})),
         );
+      } else {
+        console.error(`${entry.id}: --find is not available; categories are listed in ${entry.connector.type === 'bcch-sdmx' ? entry.connector.categoriesFile : 'the registry'}`);
+        return 1;
       }
       concepts.forEach((concept, i) => {
         const matches = candidates[i] ?? [];

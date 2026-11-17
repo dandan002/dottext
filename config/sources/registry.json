@@ -190,6 +190,40 @@
       }
     },
     {
+      "id": "bcch-sdmx",
+      "publisher": "Banco Central de Chile",
+      "country": "chile",
+      "kind": "official",
+      "channel": "statistics_api",
+      "languages": [
+        "es",
+        "en"
+      ],
+      "baseUrl": "https://si3.bcentral.cl",
+      "publisherTimeZone": "America/Santiago",
+      "status": "validating",
+      "statusReason": "Open SDMX files behind BCCh's IMF National Summary Data Page; no credential. Validated live 2026-11-17 (10 categories, no challenge): CPI, exchange rate, interest rate, reserves, trade, production, national accounts, balance of payments, government operations and debt. Monthly/quarterly headline series since 2010; daily detail still needs the token-gated BDE API.",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://www.bcentral.cl/en/terms-of-use",
+        "termsSummary": "BCCh terms allow unaltered use with citation; its statistics terms allow free consultation, reproduction, publication and adaptation citing the Bank or the original source. Some categories are compiled by INE or DIPRES and are cited to them.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {
+        "minIntervalMs": 3000,
+        "maxRequestsPerRun": 15,
+        "challengeBreakerThreshold": 2
+      },
+      "onboardingRecord": "config/sources/records/bcch-sdmx.md",
+      "connector": {
+        "type": "bcch-sdmx",
+        "endpoint": "https://si3.bcentral.cl/SieteSdmx/SieteSdmx.ashx",
+        "categoriesFile": "config/sources/bcch-sdmx-categories.json"
+      }
+    },
+    {
       "id": "bcch-repositorio",
       "publisher": "Banco Central de Chile",
       "country": "chile",

@@ -1,8 +1,19 @@
-import type {Frequency, Observation, Problem} from '@dottext/contracts';
-import {XMLParser} from 'fast-xml-parser';
+import type {Observation, Problem} from '@dottext/contracts';
 import {matchBilingual, type BilingualConcept} from '../bilingual.ts';
 import {problemFromHttp, type ObservationFetcher} from '../connector.ts';
 import type {PoliteHttpClient} from '../http/client.ts';
+import {
+  adjustmentFromCode,
+  parseSdmxXml,
+  periodStart,
+  SDMX_FREQUENCIES,
+  sdmxReferencePeriod,
+  strictNumber,
+  unitMultiplier,
+  xmlAttr as attr,
+  xmlNodes as nodes,
+  type XmlNode,
+} from '../sdmx/common.ts';
 
 /**
  * Banco de la República — SDMX 2.1 REST web service behind its statistics portal
@@ -36,6 +47,8 @@ export interface SdmxSeries {
   key: Record<string, string>;
   /** Key values in document order, e.g. `CO.IRCBRM01._Z._Z._Z.PA.D`. */
   keyString: string;
+  /** Series-level attributes, e.g. UNIT_MULT. */
+  attributes: Record<string, string>;
   observations: Array<{period: string; value: string; attributes: Record<string, string>}>;
 }
 
@@ -46,38 +59,8 @@ export interface SdmxFlowConfig {
   unitLabels?: Readonly<Record<string, string>>;
 }
 
-const ARRAY_TAGS = new Set(['Dataflow', 'Name', 'Series', 'Obs', 'Value']);
-
-const parser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: '@_',
-  removeNSPrefix: true,
-  textNodeName: '#text',
-  parseTagValue: false,
-  parseAttributeValue: false,
-  trimValues: true,
-  isArray: (name) => ARRAY_TAGS.has(name),
-});
-
-type XmlNode = Record<string, unknown>;
-
-function parseXml(xml: string): {ok: true; root: XmlNode} | {ok: false; error: string} {
-  if (/<!ENTITY/i.test(xml)) return {ok: false, error: 'DTD entity declarations are not accepted'};
-  try {
-    return {ok: true, root: parser.parse(xml) as XmlNode};
-  } catch (error) {
-    return {ok: false, error: `invalid XML: ${error instanceof Error ? error.message : String(error)}`};
-  }
-}
-
-const nodes = (value: unknown): XmlNode[] => (Array.isArray(value) ? (value as XmlNode[]) : []);
-const attr = (node: XmlNode | undefined, name: string): string | null => {
-  const value = node?.[`@_${name}`];
-  return typeof value === 'string' ? value : null;
-};
-
 export function parseSdmxDataflows(xml: string): {ok: true; dataflows: SdmxDataflow[]} | {ok: false; error: string} {
-  const parsed = parseXml(xml);
+  const parsed = parseSdmxXml(xml);
   if (!parsed.ok) return parsed;
   const structure = parsed.root['Structure'] as XmlNode | undefined;
   const container = (structure?.['Structures'] as XmlNode | undefined)?.['Dataflows'] as XmlNode | undefined;
@@ -104,7 +87,7 @@ export function parseSdmxDataflows(xml: string): {ok: true; dataflows: SdmxDataf
 }
 
 export function parseSdmxGenericData(xml: string): {ok: true; series: SdmxSeries[]} | {ok: false; error: string} {
-  const parsed = parseXml(xml);
+  const parsed = parseSdmxXml(xml);
   if (!parsed.ok) return parsed;
   const message = parsed.root['GenericData'] as XmlNode | undefined;
   if (!message) return {ok: false, error: 'not an SDMX generic data message'};
@@ -129,58 +112,14 @@ export function parseSdmxGenericData(xml: string): {ok: true; series: SdmxSeries
         attributes,
       };
     });
-    series.push({key, keyString: Object.values(key).join('.'), observations});
+    const attributes: Record<string, string> = {};
+    for (const v of nodes((raw['Attributes'] as XmlNode | undefined)?.['Value'])) {
+      const id = attr(v, 'id');
+      if (id) attributes[id] = attr(v, 'value') ?? '';
+    }
+    series.push({key, keyString: Object.values(key).join('.'), attributes, observations});
   }
   return {ok: true, series};
-}
-
-const FREQUENCIES: Record<string, Frequency> = {D: 'DAILY', M: 'MONTHLY', Q: 'QUARTERLY', A: 'ANNUAL'};
-
-/** Normalize an SDMX period (`20261117`, `202610`, `2026-10`, `2026-Q3`, `2026`) to the contract format. */
-export function sdmxReferencePeriod(period: string, frequency: Frequency): string | null {
-  const p = period.trim();
-  let y: string | undefined;
-  let m: string | undefined;
-  let d: string | undefined;
-  let q: string | undefined;
-  let match: RegExpExecArray | null;
-  if ((match = /^(\d{4})-?(\d{2})-?(\d{2})$/.exec(p))) [, y, m, d] = match;
-  else if ((match = /^(\d{4})-?(\d{2})$/.exec(p))) [, y, m] = match;
-  else if ((match = /^(\d{4})-?Q([1-4])$/.exec(p))) [, y, q] = match;
-  else if ((match = /^(\d{4})$/.exec(p))) [, y] = match;
-  else return null;
-  if (m !== undefined && (Number(m) < 1 || Number(m) > 12)) return null;
-  switch (frequency) {
-    case 'DAILY':
-      return d ? `${y}-${m}-${d}` : null;
-    case 'MONTHLY':
-      return m ? `${y}-${m}` : null;
-    case 'QUARTERLY':
-      if (q) return `${y}-Q${q}`;
-      return m ? `${y}-Q${Math.floor((Number(m) - 1) / 3) + 1}` : null;
-    case 'ANNUAL':
-      return `${y}`;
-  }
-}
-
-function seasonalAdjustment(code: string | undefined): Observation['seasonalAdjustment'] {
-  if (code === '_Z') return 'not_applicable';
-  if (code === 'N') return 'not_seasonally_adjusted';
-  if (code === 'S' || code === 'SA' || code === 'Y') return 'seasonally_adjusted';
-  return 'unknown';
-}
-
-function strictNumber(raw: string): number | null {
-  const trimmed = raw.trim();
-  return /^-?\d+(\.\d+)?([eE][+-]?\d+)?$/.test(trimmed) ? Number(trimmed) : null;
-}
-
-/** First calendar day a reference period covers, for window comparisons. */
-function periodStart(period: string): string {
-  const quarter = /^(\d{4})-Q([1-4])$/.exec(period);
-  if (quarter) return `${quarter[1]}-${String((Number(quarter[2]) - 1) * 3 + 1).padStart(2, '0')}-01`;
-  const [y, m = '01', d = '01'] = period.split('-');
-  return `${y}-${m}-${d}`;
 }
 
 export class BanrepSdmxClient {
@@ -219,7 +158,7 @@ export class BanrepSdmxClient {
 
     const observations: Observation[] = [];
     for (const series of parsed.series) {
-      const frequency = FREQUENCIES[series.key['FREQ'] ?? ''];
+      const frequency = SDMX_FREQUENCIES[series.key['FREQ'] ?? ''];
       if (!frequency) {
         return {ok: false, problem: problem('extract', url, `series ${series.keyString}: unsupported FREQ ${series.key['FREQ'] ?? '(none)'}`)};
       }
@@ -241,7 +180,9 @@ export class BanrepSdmxClient {
           rawValue: obs.value,
           status,
           unit: unitCode ? (config.unitLabels?.[unitCode] ?? unitCode) : null,
-          seasonalAdjustment: seasonalAdjustment(series.key['ADJUSTMENT']),
+          unitMultiplier: unitMultiplier(series.attributes['UNIT_MULT']),
+          producer: null,
+          seasonalAdjustment: adjustmentFromCode(series.key['ADJUSTMENT']),
           valueKind: 'reported',
           retrievedAt: retrievedAt.toISOString(),
         });

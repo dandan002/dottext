@@ -9,7 +9,7 @@ No source is **active**. Central bank channels have connectors and onboarding re
 
 ## Central bank channels (evidence 2026-11-17)
 
-Machine-readable definitions: [`registry.json`](registry.json) (validated by `packages/connectors/src/registry.ts`). Bilingual search terms: [`central-bank-concepts.json`](central-bank-concepts.json). Curated statistics: [`bcch-bde-series.json`](bcch-bde-series.json), [`banrep-sdmx-dataflows.json`](banrep-sdmx-dataflows.json).
+Machine-readable definitions: [`registry.json`](registry.json) (validated by `packages/connectors/src/registry.ts`). Bilingual search terms: [`central-bank-concepts.json`](central-bank-concepts.json). Curated statistics: [`bcch-bde-series.json`](bcch-bde-series.json), [`bcch-sdmx-categories.json`](bcch-sdmx-categories.json), [`banrep-sdmx-dataflows.json`](banrep-sdmx-dataflows.json).
 
 | Source | Channel | Status | Summary |
 | --- | --- | --- | --- |
@@ -17,10 +17,11 @@ Machine-readable definitions: [`registry.json`](registry.json) (validated by `pa
 | [`banrep-repositorio`](records/banrep-repositorio.md) | DSpace OAI-PMH | Validating | Live run stored 13 reports/papers with abstracts and file lists; same bot protection |
 | [`banrep-sdmx`](records/banrep-sdmx.md) | Statistics SDMX REST API | Validating | Open, no credential; live run collected policy rate, TRM, IBR, UVR (280 observations), no challenge |
 | [`bcch-web`](records/bcch-web.md) | Website | Blocked | Incapsula JavaScript challenge on all HTML; PDFs open; needs allowlisting or a search provider |
-| [`bcch-bde`](records/bcch-bde.md) | Statistics REST API | Blocked on credential | Needs a BDE API Key Token |
+| [`bcch-bde`](records/bcch-bde.md) | Statistics REST API | Blocked on credential | Needs a BDE API Key Token (valid one year, renewable) |
+| [`bcch-sdmx`](records/bcch-sdmx.md) | SDMX files (IMF summary data page) | Validating | Open, no credential; live run collected 3,244 monthly/quarterly observations (CPI, FX, rates, reserves, trade, production, national accounts, BOP, fiscal) |
 | [`bcch-repositorio`](records/bcch-repositorio.md) | DSpace OAI-PMH | Inactive | Historical holdings; datestamps re-stamped nightly |
 
-**Programmatic access.** Both banks offer statistics APIs — BanRep's open SDMX service and BCCh's token-based BDE API. Neither offers an API or feed for press releases, minutes, or reports: those come from websites (bot-protected) and DSpace OAI-PMH repositories.
+**Programmatic access.** Both banks offer statistics APIs. BanRep: an open SDMX service. BCCh: the token-based BDE API (daily detail) and open SDMX files behind its IMF summary data page (monthly/quarterly headlines, including INE and DIPRES data). Neither offers an API or feed for press releases, minutes, or reports: those come from websites (bot-protected), DSpace OAI-PMH repositories, and, for BCCh, possibly its email notifications.
 
 **Search in both languages.** Wherever discovery searches — a statistics catalog, a repository, or a web-search provider — every concept is queried in the native language and in English and the results merged, recording which language found each hit. Central banks publish Spanish first, translate selectively, and index some material bilingually; one language alone misses items.
 

@@ -15,6 +15,7 @@ be used as evidence.
 | `bcch/bde-getseries.json`, `bde-searchseries.json` | BCCh BDE REST API | Reproduced from the publisher's public API documentation examples (checked 2026-11-17) |
 | `bcch/bde-error.json` | BDE error envelope | Synthetic |
 | `banrep-sdmx/*.xml` | `totoro.banrep.gov.co` SDMX 2.1 structure and generic-data messages | Synthetic names and values; real layout, key dimensions, `YYYYMMDD` periods, and a name typo seen live |
+| `bcch-sdmx/*.xml` | `si3.bcentral.cl/SieteSdmx` structure-specific data (IMF ECOFIN DSD) | Synthetic values; real attributes, `YYYY-MM`/`YYYY-Qn` periods, `BASE_PER`, and the exchange-rate `UNIT_MULT=1` quirk |
 | `challenges/*.html` | Radware Bot Manager and Imperva Incapsula challenge pages | Minimal vendor boilerplate; no publisher content, no tracking IDs |
 
 Real pages captured during validation were kept out of the repository: Banco de la

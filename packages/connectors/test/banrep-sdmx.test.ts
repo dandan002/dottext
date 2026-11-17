@@ -6,8 +6,8 @@ import {
   parseSdmxDataflows,
   parseSdmxGenericData,
   SDMX_GENERIC_DATA,
-  sdmxReferencePeriod,
 } from '../src/banrep/sdmx.ts';
+import {sdmxReferencePeriod} from '../src/sdmx/common.ts';
 import {loadSdmxFlows} from '../src/registry.ts';
 import {fakeFetch, fixture, html, testHttp} from './helpers.ts';
 

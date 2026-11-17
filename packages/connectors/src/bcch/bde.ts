@@ -109,6 +109,8 @@ export class BdeClient {
         rawValue: obs.value,
         status: obs.statusCode,
         unit: config.unit ?? unitFromTitle(series.descripEsp),
+        unitMultiplier: null,
+        producer: null,
         seasonalAdjustment: config.seasonalAdjustment ?? seasonalAdjustmentFromTitles(series.descripEsp, series.descripIng),
         valueKind: 'reported',
         retrievedAt: retrievedAt.toISOString(),
