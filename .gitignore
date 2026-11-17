@@ -3,9 +3,15 @@ node_modules/
 dist/
 build/
 coverage/
+# The portal's /coverage route is source, not test output
+!apps/portal/src/app/(portal)/coverage/
 *.tsbuildinfo
 .env
 .env.*
 !.env.example
 .DS_Store
 *.log
+next-env.d.ts
+# Theme editor preview renders
+apps/portal/themes/*/preview*
+apps/portal/themes/*/sheet*

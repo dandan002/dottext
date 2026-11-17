@@ -45,7 +45,7 @@ docs/              Cross-cutting product, data, operations, and delivery require
 
 ## Working locally
 
-The root and component manifests declare a private npm workspace skeleton. No dependencies, scripts, lockfile, or Node version have been selected. There is nothing to run yet. Choose and record the supported toolchain before installing framework dependencies; see [open decisions](docs/decisions.md). `src/.gitkeep` files preserve future source directories.
+The root and component manifests declare a private npm workspace. Only the portal has dependencies so far: a Next.js design shell built with the Astryx design system (`npm install`, then `npm run dev -w @dottext/portal`; see [apps/portal](apps/portal/README.md)). The Node version and remaining toolchain are still open; see [open decisions](docs/decisions.md). `src/.gitkeep` files preserve future source directories.
 
 Working defaults are TypeScript, Next.js, Hono, Node workers, PostgreSQL/pgvector, GCP, LangGraph, and LangSmith. These are subject to validation. Model versions, auth, region, database size, live search, source permissions, and telemetry remain open. This scaffold creates no cloud resources, subscriptions, or scheduled automations.
 

@@ -1,0 +1,30 @@
+{
+  "name": "dottext",
+  "like": "neutral",
+  "mode": "both",
+  "settings": [
+    {
+      "thing": "text-size",
+      "value": "larger",
+      "source": "dial"
+    },
+    {
+      "thing": "--text-body-leading",
+      "value": "1.6",
+      "source": "token"
+    },
+    {
+      "thing": "--color-text-secondary",
+      "value": "#4b4b4b",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-text-secondary",
+      "value": "#bdbdbd",
+      "source": "token",
+      "mode": "dark"
+    }
+  ],
+  "lifted": []
+}

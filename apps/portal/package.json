@@ -2,5 +2,29 @@
   "name": "@dottext/portal",
   "version": "0.1.0",
   "private": true,
-  "description": "Scaffold for dottext portal"
+  "description": "Private research portal (Next.js + Astryx)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "astryx": "node ../../node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs",
+    "doctor": "astryx doctor"
+  },
+  "dependencies": {
+    "@astryxdesign/cli": "^0.7.16",
+    "@astryxdesign/core": "^0.7.16",
+    "@astryxdesign/theme-neutral": "^0.7.16",
+    "@stylexjs/stylex": "^0.19.2",
+    "lucide-react": "^1.73.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
 }
