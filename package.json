@@ -2,22 +2,9 @@
   "name": "dottext",
   "version": "0.1.0",
   "private": true,
-  "description": "Private emerging markets research portal — scaffold",
-  "type": "module",
-  "engines": {
-    "node": ">=22.18.0"
-  },
+  "description": "Private emerging markets research portal \u2014 scaffold",
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "scripts": {
-    "test": "node --test \"packages/*/test/**/*.test.ts\"",
-    "typecheck": "tsc -p tsconfig.json",
-    "collect": "node scripts/collect.ts"
-  },
-  "devDependencies": {
-    "@types/node": "^26.6.6",
-    "typescript": "^7.0.2"
-  }
+  ]
 }

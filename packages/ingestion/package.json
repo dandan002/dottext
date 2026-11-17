@@ -2,13 +2,5 @@
   "name": "@dottext/ingestion",
   "version": "0.1.0",
   "private": true,
-  "description": "Resumable collection pipeline and revision detection",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.ts"
-  },
-  "dependencies": {
-    "@dottext/contracts": "*",
-    "@dottext/connectors": "*"
-  }
+  "description": "Scaffold for dottext ingestion"
 }

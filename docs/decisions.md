@@ -4,20 +4,14 @@ No subscriptions, cloud resources, or schedules are created by this scaffold. Re
 
 | Decision | Current status | Evidence needed |
 | --- | --- | --- |
-| Runtime/tooling | **Decided 2026-11-17** for packages/scripts: Node ≥ 22.18 runs TypeScript directly (built-in type stripping, erasable syntax only, `.ts` import specifiers); npm workspaces; `node:test` (`npm test`); TypeScript 7 typecheck (`npm run typecheck`); zod 4 contracts; linkedom (HTML) and fast-xml-parser 5.12.0 (XML). Portal keeps Next.js tooling | Lint/format tool still open; revisit type stripping if a dependency needs non-erasable syntax |
+| Runtime/tooling | TypeScript and Node; private npm workspace manifests are scaffold convention only | Node/framework versions, package manager, build/typecheck/lint/test strategy |
 | Authentication | Clerk candidate; Firebase alternative | Workspace mapping, cost, session/server validation, private access checks |
 | GCP region | Open | User latency, data location requirements, service availability, measured cost |
 | Postgres deployment/size | PostgreSQL/pgvector; Cloud SQL sizing open | Smallest viable instance, storage/backup cost, retrieval benchmark against allowance |
 | Models | Provider-neutral; OpenRouter candidate and direct support | Explicit model/provider versions, English output fidelity, structured output, cost, fallback behavior |
 | Embeddings | Open | English-to-Spanish retrieval, names, legislation, idioms, numerical questions, cost |
-| Live-search provider | Open. Bilingual (es + en) search discovery and a `SearchProvider` interface exist (`packages/connectors/src/search.ts`); a provider would also unblock Banco Central de Chile document discovery | Permitted access, provenance/times, retention, results quality, price, Spanish-query quality |
-| Source roster/retention | Central bank channels have connectors and onboarding records ([records](../config/sources/records/)); none active. Other sources are candidates | Owner confirmation of storage policy against each publisher's terms; actual history; journalism samples |
-| Publisher bot protection | Open. `*.banrep.gov.co` (Radware) challenges after roughly 5–14 requests from one IP; `www.bcentral.cl` HTML (Imperva Incapsula) challenges every non-browser request. We detect and report challenges and never solve or evade them | Challenge rate from deployment egress; responses to allowlisting requests sent to both banks |
-| Banco Central de Chile documents | Open: allowlisting vs live-search discovery of open `/documents/` PDFs | Allowlisting response; search-provider choice and cost |
-| Collector outbound identity | Open. Allowlisting requests ([drafts](../config/sources/outreach/README.md)) ask publishers to allow a User-Agent with a contact (`DOTTEXT_USER_AGENT`) and a fixed IP; Cloud Run has no fixed egress IP without Cloud NAT and a reserved static address, a recurring charge | Cost against the compute allowance; whether publishers accept User-Agent-only allowlisting |
-| Banco Central de Chile statistics | Monthly/quarterly headlines collected without a key from the SDMX files behind the IMF summary data page (`bcch-sdmx`). Daily detail (policy rate, observed dollar, Imacec) needs a BDE account and API Key Token (`BCCH_BDE_TOKEN` in Secret Manager; valid one year, renewable) | Token registration and expiry tracking; live validation of units/adjustment for curated BDE series |
-| Banco de la República statistics | Open SDMX API collected (`banrep-sdmx`): policy rate, TRM, IBR, UVR. Covers rates, FX, and money only; Colombian inflation/activity need DANE as a separate source | Meaning of unit codes `ER`/`NR`/`APC` (ask `cie@banrep.gov.co`); switch to JSON when the announced version is live |
-| PDF text extraction | Open; needed for reports (Monetary Policy Reports, minutes PDFs) | Library choice, table fidelity, cost; Banco de la República bitstreams are currently captcha-gated |
+| Live-search provider | Open | Permitted access, provenance/times, retention, results quality, price |
+| Source roster/retention | Candidates only | Connector validation, actual history, permitted text/snapshots, duplication/failure behavior |
 | Telemetry | LangSmith Developer candidate; Cloud Logging/Monitoring defaults | Redaction, sampling, retention, export failure, independent spend cap |
 | Durable dispatch | Cloud Tasks or equivalent | Leases, retry/overlap behavior, execution identity, cost |
 | Archive beyond first month | Open | Storage measurements and source policies |
