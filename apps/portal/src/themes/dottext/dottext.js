@@ -108,30 +108,30 @@ export const dottextTheme = {
     "--color-syntax-attribute": "light-dark(#584400, #eec448)",
     "--color-syntax-property": "light-dark(#005348, #90d7c8)",
     "--color-syntax-punctuation": "light-dark(#525252, #b9b9b9)",
-    "--color-syntax-background": "light-dark(#ffffff, #111111)",
+    "--color-syntax-background": "light-dark(#ffffff, #262626)",
     "--color-syntax-added": "color-mix(in srgb, var(--color-success-muted) 25%, transparent)",
     "--color-syntax-removed": "color-mix(in srgb, var(--color-error-muted) 25%, transparent)",
     "--color-syntax-diff-header": "transparent",
     "--color-syntax-added-marker": "var(--color-syntax-punctuation)",
     "--color-syntax-removed-marker": "var(--color-syntax-punctuation)",
-    "--color-background-surface": "light-dark(#ffffff, #262626)",
-    "--color-background-body": "light-dark(#f1f1f1, #1b1b1b)",
-    "--color-background-card": "light-dark(#ffffff, #1b1b1b)",
-    "--color-background-popover": "light-dark(#ffffff, #1b1b1b)",
-    "--color-background-muted": "light-dark(#f1f1f1, #1b1b1b)",
-    "--color-accent": "light-dark(#1b1b1b, #f1f1f1)",
+    "--color-background-surface": "light-dark(#ffffff, #303030)",
+    "--color-background-body": "light-dark(#f1f1f1, #262626)",
+    "--color-background-card": "light-dark(#ffffff, #262626)",
+    "--color-background-popover": "light-dark(#ffffff, #262626)",
+    "--color-background-muted": "light-dark(#f1f1f1, #262626)",
+    "--color-accent": "light-dark(#474747, #dcdcdc)",
     "--color-accent-muted": "light-dark(#d4d4d4, #474747)",
     "--color-neutral": "light-dark(#0000000F, #ffffff1A)",
     "--color-overlay": "light-dark(#00000080, #000000CC)",
     "--color-overlay-hover": "light-dark(#0000000D, #ffffff0D)",
     "--color-overlay-pressed": "light-dark(#0000001A, #ffffff1A)",
-    "--color-text-primary": "light-dark(#000000, #ffffff)",
-    "--color-text-secondary": "light-dark(#4b4b4b, #bdbdbd)",
+    "--color-text-primary": "light-dark(#2b2b2b, #ededed)",
+    "--color-text-secondary": "light-dark(#5e5e5e, #bdbdbd)",
     "--color-text-disabled": "light-dark(#919191, #525252)",
-    "--color-text-accent": "light-dark(#1b1b1b, #f1f1f1)",
-    "--color-on-dark": "#ffffff",
+    "--color-text-accent": "light-dark(#474747, #dcdcdc)",
+    "--color-on-dark": "#ededed",
     "--color-on-light": "#111111",
-    "--color-on-accent": "light-dark(#ffffff, #111111)",
+    "--color-on-accent": "light-dark(#ffffff, #262626)",
     "--color-on-success": "light-dark(#ffffff, #111111)",
     "--color-on-error": "light-dark(#ffffff, #111111)",
     "--color-on-warning": "#111111",
@@ -146,8 +146,8 @@ export const dottextTheme = {
     "--color-on-success-muted": "light-dark(#00490b, #90ca90)",
     "--color-on-warning-muted": "light-dark(#4b3900, #eec448)",
     "--color-on-error-muted": "light-dark(#76000c, #ffaea7)",
-    "--color-icon-accent": "light-dark(#1b1b1b, #f1f1f1)",
-    "--color-icon-primary": "light-dark(#000000, #ffffff)",
+    "--color-icon-accent": "light-dark(#474747, #dcdcdc)",
+    "--color-icon-primary": "light-dark(#2b2b2b, #ededed)",
     "--color-icon-secondary": "light-dark(#6a6a6a, #9e9e9e)",
     "--color-icon-disabled": "light-dark(#919191, #525252)",
     "--color-success": "light-dark(#198100, #64af4c)",
@@ -197,7 +197,7 @@ export const dottextTheme = {
     "--color-border-pink": "light-dark(#ffc0d7, #fc78b1)",
     "--color-icon-pink": "light-dark(#70003f, #fd92bd)",
     "--color-text-pink": "light-dark(#70003f, #ffa9ca)",
-    "--color-background-gray": "light-dark(#e2e2e2, #303030)",
+    "--color-background-gray": "light-dark(#e2e2e2, #3b3b3b)",
     "--color-border-gray": "light-dark(#d4d4d4, #262626)",
     "--color-icon-gray": "light-dark(#474747, #9e9e9e)",
     "--color-text-gray": "light-dark(#1b1b1b, #d4d4d4)",
@@ -321,17 +321,17 @@ export const dottextTheme = {
     },
     "item": {
       "selected": {
-        "--color-text-secondary": "light-dark(#4b4b4b, #bdbdbd)"
+        "--color-text-secondary": "light-dark(#5e5e5e, #bdbdbd)"
       }
     },
     "tree-list-item": {
       "selected": {
-        "--color-text-secondary": "light-dark(#4b4b4b, #bdbdbd)"
+        "--color-text-secondary": "light-dark(#5e5e5e, #bdbdbd)"
       }
     },
     "file-input": {
       "mode:dropzone": {
-        "--color-text-secondary": "light-dark(#4b4b4b, #bdbdbd)"
+        "--color-text-secondary": "light-dark(#5e5e5e, #bdbdbd)"
       }
     },
     "citation": {
@@ -398,7 +398,7 @@ export const dottextTheme = {
     },
     "segmented-control-item": {
       "base": {
-        "--color-text-secondary": "light-dark(#4b4b4b, #bdbdbd)"
+        "--color-text-secondary": "light-dark(#5e5e5e, #bdbdbd)"
       },
       "size:sm": {
         "height": "calc(var(--size-element-sm) - 8px)"

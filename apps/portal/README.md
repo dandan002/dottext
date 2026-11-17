@@ -1,6 +1,6 @@
 # Portal
 
-Build the private portal with Next.js, TypeScript, and the [Astryx](https://www.npmjs.com/package/@astryxdesign/core) design system, on a local `dottext` theme that extends `neutral` with 16px body text, 1.6 line height and stronger secondary text. This replaces the earlier Tailwind and shadcn/ui working default.
+Build the private portal with Next.js, TypeScript, and the [Astryx](https://www.npmjs.com/package/@astryxdesign/core) design system, on a local `dottext` theme that extends `neutral` with 16px body text, 1.6 line height, stronger secondary text in dark mode, and softened greys in place of black: charcoal text and primary buttons in light mode (`#2b2b2b`, `#474747`), and a `#262626` ground with `#303030` panels in dark mode. This replaces the earlier Tailwind and shadcn/ui working default.
 
 ## Current state
 
