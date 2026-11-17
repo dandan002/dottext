@@ -1,5 +1,5 @@
 {
-  "$comment": "Curated BDE series. Only IDs shown in BCCh's own API documentation (checked 2026-11-17) are listed. Add others after a bilingual catalog search (npm run collect -- --source bcch-bde --find <concept>) and a human check of both titles. Omit unit to use the publisher's own title parenthetical verbatim.",
+  "$comment": "Curated BDE series. Only IDs shown in BCCh's own API documentation (checked 2026-11-17) are listed. Add others after a bilingual catalog search (npm run collect -- --source bcch-bde --find <concept>) and a human check of both titles. Omit unit to use the publisher's own title parenthetical verbatim. CPI: from January 2024 the reference index is base 2023=100; base-2018 CPI series no longer update.",
   "series": [
     {
       "seriesId": "F022.TPM.TIN.D001.NO.Z.D",

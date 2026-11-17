@@ -52,6 +52,8 @@ describe('BdeClient', () => {
       rawValue: '2.75',
       status: 'OK',
       unit: 'percent',
+      unitMultiplier: null,
+      producer: null,
       seasonalAdjustment: 'not_applicable',
       valueKind: 'reported',
       retrievedAt: '2026-11-17T12:00:00.000Z',

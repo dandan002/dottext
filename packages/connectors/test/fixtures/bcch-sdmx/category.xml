@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- SYNTHETIC values in the StructureSpecificData layout served by si3.bcentral.cl/SieteSdmx (2026-11-17). -->
+<message:StructureSpecificData xmlns:message="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:ns1="urn:sdmx:org.sdmx.infomodel.datastructure.DataStructure=IMF:ECOFIN_DSD(1.0):ObsLevelDim:TIME_PERIOD" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <message:Header>
+    <message:ID>CL_SYNTHETIC</message:ID>
+    <message:Test>false</message:Test>
+    <message:Prepared>2026-11-17T11:39:15</message:Prepared>
+    <message:Sender id="BCCh"><common:Name xml:lang="es" xmlns:common="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common">SYNTHETIC Category - CL_TEST</common:Name></message:Sender>
+    <message:Structure structureID="IMF_ECOFIN_DSD_1_0" dimensionAtObservation="TIME_PERIOD"><common:Structure xmlns:common="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common"><Ref agencyID="IMF" id="ECOFIN_DSD" version="1.0" /></common:Structure></message:Structure>
+  </message:Header>
+  <message:DataSet ss:dataScope="DataStructure" xsi:type="ns1:DataSetType" ss:structureRef="IMF_ECOFIN_DSD_1_0" xmlns:ss="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/structurespecific">
+    <Series FREQ="M" DATA_DOMAIN="EXR" REF_AREA="CL" INDICATOR="ENDA_XDC_USD_RATE" COUNTERPART_AREA="_Z" UNIT_MULT="1" TIME_FORMAT="P1M">
+      <Obs TIME_PERIOD="2024-10" OBS_VALUE="111.11" OBS_STATUS="A" />
+      <Obs TIME_PERIOD="2026-09" OBS_VALUE="999.123456789" OBS_STATUS="A" />
+      <Obs TIME_PERIOD="2026-10" OBS_VALUE="NaN" OBS_STATUS="M" />
+    </Series>
+    <Series FREQ="Q" DATA_DOMAIN="NAG" REF_AREA="CL" INDICATOR="NGDP_R_SA_XDC" COUNTERPART_AREA="_Z" UNIT_MULT="6" TIME_FORMAT="P3M" BASE_PER="2018">
+      <Obs TIME_PERIOD="2026-Q1" OBS_VALUE="12345.6" OBS_STATUS="A" />
+      <Obs TIME_PERIOD="2026-Q2" OBS_VALUE="12400.1" OBS_STATUS="A" />
+    </Series>
+  </message:DataSet>
+</message:StructureSpecificData>

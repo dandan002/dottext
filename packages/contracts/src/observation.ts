@@ -33,6 +33,10 @@ export const Observation = z.object({
   /** Publisher status code, e.g. `OK`, `ND`. */
   status: z.string(),
   unit: z.string().nullable(),
+  /** Power of ten the value is scaled by (SDMX UNIT_MULT: 6 = millions); null when not stated. */
+  unitMultiplier: z.number().int().nullable(),
+  /** Agency that compiles the statistic when it differs from the distributing source (e.g. INE CPI via BCCh). */
+  producer: z.string().nullable(),
   seasonalAdjustment: z.enum(['seasonally_adjusted', 'not_seasonally_adjusted', 'not_applicable', 'unknown']),
   /** Reported data vs forecast/projection; statistics APIs report observed values. */
   valueKind: z.enum(['reported', 'forecast']),

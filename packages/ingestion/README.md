@@ -25,6 +25,6 @@ Validate replay without duplicate stored outputs, lease overlap, partial failure
 - **Refetch policy:** listing connectors recheck known items listed within 7 days for corrections, at most once per 24 hours each; OAI connectors process every item they rediscover (the datestamp moved).
 - **Retries:** failed items stay pending and are retried in later runs even after leaving the listing, up to 6 consecutive failures; contract-validation failures are not retried.
 - **Policy:** text beyond the source's `maxStoredText` is dropped and `textReducedByPolicy` set.
-- `runObservationCollection` stores statistical observations, keeping earlier vintages when a period's value changes.
+- `runObservationCollection` works with any `ObservationFetcher` (BCCh BDE, BCCh SDMX, BanRep SDMX). Its window is a range of **reference periods**, not release times; callers look back far enough to catch late releases and revisions, and only new or changed values are stored, keeping earlier vintages.
 
 `MemoryStore` and `JsonDirStore` (local JSON Lines) implement the `DocumentStore`/`ObservationStore` boundary until the database is chosen. Not yet built: leases/concurrency, stages 5–8, PDF text extraction.

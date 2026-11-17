@@ -3,8 +3,10 @@ import {Language, Observation, SourceDefinition} from '@dottext/contracts';
 import {z} from 'zod';
 import {BanrepWebConnector} from './banrep/web.ts';
 import type {BilingualConcept} from './bilingual.ts';
-import type {SeriesConfig} from './bcch/bde.ts';
-import type {DocumentConnector} from './connector.ts';
+import {banrepSdmxFetcher, BanrepSdmxClient, type SdmxFlowConfig} from './banrep/sdmx.ts';
+import {BdeClient, bdeFetcher, type SeriesConfig} from './bcch/bde.ts';
+import {bcchSdmxFetcher, BcchSdmxClient, type BcchSdmxCategoryConfig} from './bcch/sdmx.ts';
+import type {DocumentConnector, ObservationFetcher} from './connector.ts';
 import {PoliteHttpClient, type HttpClientOptions} from './http/client.ts';
 import {OaiPmhConnector} from './oai/connector.ts';
 
@@ -26,6 +28,8 @@ const ConnectorSettings = z.discriminatedUnion('type', [
     maxPagesPerSet: z.number().int().positive(),
   }),
   z.object({type: z.literal('bcch-bde'), tokenEnv: z.string().min(1), seriesFile: z.string().min(1)}),
+  z.object({type: z.literal('banrep-sdmx'), baseUrl: z.url(), flowsFile: z.string().min(1)}),
+  z.object({type: z.literal('bcch-sdmx'), endpoint: z.url(), categoriesFile: z.string().min(1)}),
   /** No collectable channel yet (see the source's statusReason). */
   z.object({type: z.literal('none')}),
 ]);
@@ -76,6 +80,49 @@ export function loadSeriesConfig(relativePath: string): SeriesConfig[] {
   }));
 }
 
+const SdmxFlowsFile = z.object({
+  dataflows: z.array(
+    z.object({
+      flowId: z.string().min(1),
+      conceptId: z.string().optional(),
+      unitLabels: z.record(z.string(), z.string()).optional(),
+      evidence: z.string().min(1),
+    }),
+  ),
+});
+
+export function loadSdmxFlows(relativePath: string): SdmxFlowConfig[] {
+  return SdmxFlowsFile.parse(readJson(relativePath)).dataflows.map(({flowId, unitLabels}) => ({
+    flowId,
+    ...(unitLabels ? {unitLabels} : {}),
+  }));
+}
+
+const Adjustment = Observation.shape.seasonalAdjustment;
+const BcchCategoriesFile = z.object({
+  suffixUnits: z.record(z.string(), z.string()),
+  seasonallyAdjustedMarker: z.string().min(1),
+  categories: z.array(
+    z.object({
+      code: z.string().regex(/^SDMX_[A-Z0-9_]+$/),
+      producer: z.string().min(1),
+      indicatorUnits: z.record(z.string(), z.string()).optional(),
+      indicatorAdjustment: z.record(z.string(), Adjustment).optional(),
+      indicatorMultiplier: z.record(z.string(), z.number().int()).optional(),
+      evidence: z.string().min(1),
+    }),
+  ),
+});
+
+export function loadBcchSdmxCategories(relativePath: string): BcchSdmxCategoryConfig[] {
+  const file = BcchCategoriesFile.parse(readJson(relativePath));
+  return file.categories.map(({evidence: _evidence, ...category}) => ({
+    ...category,
+    suffixUnits: file.suffixUnits,
+    seasonallyAdjustedMarker: file.seasonallyAdjustedMarker,
+  }));
+}
+
 /** One HTTP client per run, paced and budgeted by the source's rate limit. */
 export function httpClientFor(entry: RegistryEntry, overrides: Partial<HttpClientOptions> = {}): PoliteHttpClient {
   const policy = {
@@ -109,7 +156,36 @@ export function createDocumentConnector(entry: RegistryEntry, http: PoliteHttpCl
         maxPagesPerSet: settings.maxPagesPerSet,
       });
     case 'bcch-bde':
+    case 'banrep-sdmx':
+    case 'bcch-sdmx':
     case 'none':
+      return null;
+  }
+}
+
+/** Build the statistics fetcher for a registry entry, or null for document channels. */
+export function createObservationFetcher(
+  entry: RegistryEntry,
+  http: PoliteHttpClient,
+  env: Record<string, string | undefined> = process.env,
+): ObservationFetcher | null {
+  const settings = entry.connector;
+  switch (settings.type) {
+    case 'bcch-bde': {
+      const client = new BdeClient({http, token: env[settings.tokenEnv] ?? null, sourceId: entry.id});
+      return bdeFetcher(client, entry.id, loadSeriesConfig(settings.seriesFile));
+    }
+    case 'banrep-sdmx':
+      return banrepSdmxFetcher(
+        new BanrepSdmxClient({http, sourceId: entry.id, baseUrl: settings.baseUrl}),
+        loadSdmxFlows(settings.flowsFile),
+      );
+    case 'bcch-sdmx':
+      return bcchSdmxFetcher(
+        new BcchSdmxClient({http, sourceId: entry.id, endpoint: settings.endpoint}),
+        loadBcchSdmxCategories(settings.categoriesFile),
+      );
+    default:
       return null;
   }
 }

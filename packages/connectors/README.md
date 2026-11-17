@@ -20,6 +20,9 @@ Begin with official and journalistic samples for both countries. Capture permitt
 | `src/banrep/web.ts` | Banco de la República listings (es + en) and Drupal articles; translation groups from node IDs and `hreflang` |
 | `src/oai/` | Generic DSpace OAI-PMH (`oai_dc` + ORE files) for Banco de la República and Banco Central de Chile repositories |
 | `src/bcch/bde.ts` | Banco Central de Chile BDE statistics API (token-gated) with bilingual catalog search |
+| `src/banrep/sdmx.ts` | Banco de la República SDMX 2.1 statistics API (open, generic data) with bilingual dataflow search |
+| `src/bcch/sdmx.ts` | Banco Central de Chile SDMX files behind its IMF summary data page (open, structure-specific data) |
+| `src/sdmx/common.ts` | Shared SDMX parsing: entity guard, periods, numbers, `UNIT_MULT`, adjustment codes |
 | `src/registry.ts` | Loads and validates `config/sources/*.json`; builds connectors and per-run HTTP clients |
 
 Source status and evidence: [`config/sources/records/`](../../config/sources/records/). Tests: `npm test`; fixtures in `test/fixtures/` are synthetic text in real page structure (see its README).

@@ -7,7 +7,10 @@
       "country": "colombia",
       "kind": "official",
       "channel": "website",
-      "languages": ["es", "en"],
+      "languages": [
+        "es",
+        "en"
+      ],
       "baseUrl": "https://www.banrep.gov.co",
       "publisherTimeZone": "America/Bogota",
       "status": "validating",
@@ -20,13 +23,23 @@
         "termsReviewedOn": "2026-11-17",
         "ownerConfirmed": false
       },
-      "rateLimit": {"minIntervalMs": 10000, "maxRequestsPerRun": 10, "challengeBreakerThreshold": 2},
+      "rateLimit": {
+        "minIntervalMs": 10000,
+        "maxRequestsPerRun": 10,
+        "challengeBreakerThreshold": 2
+      },
       "onboardingRecord": "config/sources/records/banrep-web.md",
       "connector": {
         "type": "banrep-web",
         "listings": [
-          {"path": "/es/noticias", "language": "es"},
-          {"path": "/en/press-releases", "language": "en"}
+          {
+            "path": "/es/noticias",
+            "language": "es"
+          },
+          {
+            "path": "/en/press-releases",
+            "language": "en"
+          }
         ],
         "maxPagesPerListing": 6
       }
@@ -37,7 +50,10 @@
       "country": "colombia",
       "kind": "official",
       "channel": "oai_pmh",
-      "languages": ["es", "en"],
+      "languages": [
+        "es",
+        "en"
+      ],
       "baseUrl": "https://repositorio.banrep.gov.co",
       "publisherTimeZone": "America/Bogota",
       "status": "validating",
@@ -50,7 +66,11 @@
         "termsReviewedOn": "2026-11-17",
         "ownerConfirmed": false
       },
-      "rateLimit": {"minIntervalMs": 10000, "maxRequestsPerRun": 10, "challengeBreakerThreshold": 2},
+      "rateLimit": {
+        "minIntervalMs": 10000,
+        "maxRequestsPerRun": 10,
+        "challengeBreakerThreshold": 2
+      },
       "onboardingRecord": "config/sources/records/banrep-repositorio.md",
       "connector": {
         "type": "oai-pmh",
@@ -70,12 +90,49 @@
       }
     },
     {
+      "id": "banrep-sdmx",
+      "publisher": "Banco de la República",
+      "country": "colombia",
+      "kind": "official",
+      "channel": "statistics_api",
+      "languages": [
+        "es",
+        "en"
+      ],
+      "baseUrl": "https://totoro.banrep.gov.co",
+      "publisherTimeZone": "America/Bogota",
+      "status": "validating",
+      "statusReason": "Open SDMX 2.1 REST service behind the SUAMECA statistics portal; no credential. Validated live 2026-11-17 (9 requests, no challenge): policy rate, TRM, IBR and UVR parsed. XML only (JSON/CSV answered 406 despite the announced upgrade); endPeriod returns 404, so windows are applied client-side. The host carries the same Radware script as banrep.gov.co.",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://www.banrep.gov.co/en/legal-notice",
+        "termsSummary": "The Bank's legal notice covers statistics served through its SDMX service under the same conditions as the website: cite the source; commercial or promotional use requires prior authorization.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {
+        "minIntervalMs": 10000,
+        "maxRequestsPerRun": 10,
+        "challengeBreakerThreshold": 2
+      },
+      "onboardingRecord": "config/sources/records/banrep-sdmx.md",
+      "connector": {
+        "type": "banrep-sdmx",
+        "baseUrl": "https://totoro.banrep.gov.co/nsi-jax-ws/rest",
+        "flowsFile": "config/sources/banrep-sdmx-dataflows.json"
+      }
+    },
+    {
       "id": "bcch-web",
       "publisher": "Banco Central de Chile",
       "country": "chile",
       "kind": "official",
       "channel": "website",
-      "languages": ["es", "en"],
+      "languages": [
+        "es",
+        "en"
+      ],
       "baseUrl": "https://www.bcentral.cl",
       "publisherTimeZone": "America/Santiago",
       "status": "blocked",
@@ -88,9 +145,15 @@
         "termsReviewedOn": "2026-11-17",
         "ownerConfirmed": false
       },
-      "rateLimit": {"minIntervalMs": 10000, "maxRequestsPerRun": 20, "challengeBreakerThreshold": 1},
+      "rateLimit": {
+        "minIntervalMs": 10000,
+        "maxRequestsPerRun": 20,
+        "challengeBreakerThreshold": 1
+      },
       "onboardingRecord": "config/sources/records/bcch-web.md",
-      "connector": {"type": "none"}
+      "connector": {
+        "type": "none"
+      }
     },
     {
       "id": "bcch-bde",
@@ -98,7 +161,10 @@
       "country": "chile",
       "kind": "official",
       "channel": "statistics_api",
-      "languages": ["es", "en"],
+      "languages": [
+        "es",
+        "en"
+      ],
       "baseUrl": "https://si3.bcentral.cl",
       "publisherTimeZone": "America/Santiago",
       "status": "blocked",
@@ -111,9 +177,51 @@
         "termsReviewedOn": "2026-11-17",
         "ownerConfirmed": false
       },
-      "rateLimit": {"minIntervalMs": 300, "maxRequestsPerRun": 60, "challengeBreakerThreshold": 2},
+      "rateLimit": {
+        "minIntervalMs": 300,
+        "maxRequestsPerRun": 60,
+        "challengeBreakerThreshold": 2
+      },
       "onboardingRecord": "config/sources/records/bcch-bde.md",
-      "connector": {"type": "bcch-bde", "tokenEnv": "BCCH_BDE_TOKEN", "seriesFile": "config/sources/bcch-bde-series.json"}
+      "connector": {
+        "type": "bcch-bde",
+        "tokenEnv": "BCCH_BDE_TOKEN",
+        "seriesFile": "config/sources/bcch-bde-series.json"
+      }
+    },
+    {
+      "id": "bcch-sdmx",
+      "publisher": "Banco Central de Chile",
+      "country": "chile",
+      "kind": "official",
+      "channel": "statistics_api",
+      "languages": [
+        "es",
+        "en"
+      ],
+      "baseUrl": "https://si3.bcentral.cl",
+      "publisherTimeZone": "America/Santiago",
+      "status": "validating",
+      "statusReason": "Open SDMX files behind BCCh's IMF National Summary Data Page; no credential. Validated live 2026-11-17 (10 categories, no challenge): CPI, exchange rate, interest rate, reserves, trade, production, national accounts, balance of payments, government operations and debt. Monthly/quarterly headline series since 2010; daily detail still needs the token-gated BDE API.",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://www.bcentral.cl/en/terms-of-use",
+        "termsSummary": "BCCh terms allow unaltered use with citation; its statistics terms allow free consultation, reproduction, publication and adaptation citing the Bank or the original source. Some categories are compiled by INE or DIPRES and are cited to them.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {
+        "minIntervalMs": 3000,
+        "maxRequestsPerRun": 15,
+        "challengeBreakerThreshold": 2
+      },
+      "onboardingRecord": "config/sources/records/bcch-sdmx.md",
+      "connector": {
+        "type": "bcch-sdmx",
+        "endpoint": "https://si3.bcentral.cl/SieteSdmx/SieteSdmx.ashx",
+        "categoriesFile": "config/sources/bcch-sdmx-categories.json"
+      }
     },
     {
       "id": "bcch-repositorio",
@@ -121,7 +229,10 @@
       "country": "chile",
       "kind": "official",
       "channel": "oai_pmh",
-      "languages": ["es", "en"],
+      "languages": [
+        "es",
+        "en"
+      ],
       "baseUrl": "https://repositoriodigital.bcentral.cl",
       "publisherTimeZone": "America/Santiago",
       "status": "inactive",
@@ -134,13 +245,21 @@
         "termsReviewedOn": "2026-11-17",
         "ownerConfirmed": false
       },
-      "rateLimit": {"minIntervalMs": 5000, "maxRequestsPerRun": 100, "challengeBreakerThreshold": 2},
+      "rateLimit": {
+        "minIntervalMs": 5000,
+        "maxRequestsPerRun": 100,
+        "challengeBreakerThreshold": 2
+      },
       "onboardingRecord": "config/sources/records/bcch-repositorio.md",
       "connector": {
         "type": "oai-pmh",
         "endpoint": "https://repositoriodigital.bcentral.cl/oai/request",
-        "sets": ["com_20.500.12580_4514"],
-        "setNames": {"com_20.500.12580_4514": "Actas de las Reuniones de Política Monetaria"},
+        "sets": [
+          "com_20.500.12580_4514"
+        ],
+        "setNames": {
+          "com_20.500.12580_4514": "Actas de las Reuniones de Política Monetaria"
+        },
         "datestampTracksChanges": false,
         "enrichAttachments": false,
         "maxPagesPerSet": 20

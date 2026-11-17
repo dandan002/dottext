@@ -1,0 +1,68 @@
+{
+  "$comment": "Curated BCCh SDMX categories from the IMF National Summary Data Page (https://si3.bcentral.cl/estadisticas/diario1/aplicaciones/NSDP/nsdp.html). Each listed category was fetched and inspected live on 2026-11-17. Producers are as named on that page. Unit labels come from IMF ECOFIN indicator-code suffixes; exact-code labels and multiplier corrections need evidence.",
+  "suffixUnits": {
+    "_USD": "USD",
+    "_XDC": "CLP",
+    "_IX": "index",
+    "_PA": "percent per annum"
+  },
+  "seasonallyAdjustedMarker": "_SA_",
+  "categories": [
+    {
+      "code": "SDMX_CPI",
+      "producer": "INE",
+      "evidence": "1 series PCPI_IX, monthly from 2010-01, BASE_PER 2023; 114.13 for 2026-10"
+    },
+    {
+      "code": "SDMX_XRATE",
+      "producer": "BCCh",
+      "indicatorUnits": {
+        "ENDA_XDC_USD_RATE": "CLP per USD, period average"
+      },
+      "indicatorMultiplier": {
+        "ENDA_XDC_USD_RATE": 0
+      },
+      "evidence": "ENDA_XDC_USD_RATE monthly; 982.277619047619 for 2026-10 (decimals of a 21-day average; IMF ENDA = period average). Publisher states UNIT_MULT=1, but values are plainly CLP per USD, so the multiplier is corrected to 0. ENDA_FR_1M ended 2023-10"
+    },
+    {
+      "code": "SDMX_IRM",
+      "producer": "BCCh",
+      "evidence": "FII_ON_PA monthly, 4.5 for 2026-10; FID_PA ended 2017-07"
+    },
+    {
+      "code": "SDMX_ILV1",
+      "producer": "BCCh",
+      "evidence": "6 reserve series in USD, UNIT_MULT 6, monthly to 2026-10"
+    },
+    {
+      "code": "SDMX_MET",
+      "producer": "BCCh",
+      "evidence": "Merchandise trade: TGB_USD, TXG_FOB_USD, TMG_FOB_USD, UNIT_MULT 6, monthly to 2026-10"
+    },
+    {
+      "code": "SDMX_PI",
+      "producer": "INE",
+      "evidence": "AIP_IX, AIPMI_IX, AIP_SA_IX (BASE_PER 2018) monthly to 2026-09"
+    },
+    {
+      "code": "SDMX_NAG_18",
+      "producer": "BCCh",
+      "evidence": "72 national-accounts series in CLP, UNIT_MULT 6, quarterly to 2026-Q2, nominal and real (_R_), some seasonally adjusted (_SA_)"
+    },
+    {
+      "code": "SDMX_BOP6",
+      "producer": "BCCh",
+      "evidence": "375 balance-of-payments series in USD, UNIT_MULT 6, quarterly to 2026-Q3; largest response (2.7 MB)"
+    },
+    {
+      "code": "SDMX_GFC",
+      "producer": "DIPRES",
+      "evidence": "24 general-government operations series in CLP, UNIT_MULT 6, quarterly to 2026-Q2"
+    },
+    {
+      "code": "SDMX_GFD",
+      "producer": "DIPRES",
+      "evidence": "4 central-government debt series in USD, UNIT_MULT 6, quarterly to 2026-Q2"
+    }
+  ]
+}

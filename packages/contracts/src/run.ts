@@ -82,6 +82,7 @@ export const ObservationRunReport = z.object({
   window: z.object({since: z.iso.date(), until: z.iso.date()}),
   series: z.array(
     z.object({
+      /** The configured item: a single series (BDE) or a dataflow that may hold several (SDMX). */
       seriesId: z.string(),
       received: z.number().int().nonnegative(),
       new: z.number().int().nonnegative(),
