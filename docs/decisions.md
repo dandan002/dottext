@@ -4,14 +4,18 @@ No subscriptions, cloud resources, or schedules are created by this scaffold. Re
 
 | Decision | Current status | Evidence needed |
 | --- | --- | --- |
-| Runtime/tooling | TypeScript and Node; private npm workspace manifests are scaffold convention only | Node/framework versions, package manager, build/typecheck/lint/test strategy |
+| Runtime/tooling | **Decided 2026-11-17** for packages/scripts: Node ≥ 22.18 runs TypeScript directly (built-in type stripping, erasable syntax only, `.ts` import specifiers); npm workspaces; `node:test` (`npm test`); TypeScript 7 typecheck (`npm run typecheck`); zod 4 contracts; linkedom (HTML) and fast-xml-parser 5.12.0 (XML). Portal keeps Next.js tooling | Lint/format tool still open; revisit type stripping if a dependency needs non-erasable syntax |
 | Authentication | Clerk candidate; Firebase alternative | Workspace mapping, cost, session/server validation, private access checks |
 | GCP region | Open | User latency, data location requirements, service availability, measured cost |
 | Postgres deployment/size | PostgreSQL/pgvector; Cloud SQL sizing open | Smallest viable instance, storage/backup cost, retrieval benchmark against allowance |
 | Models | Provider-neutral; OpenRouter candidate and direct support | Explicit model/provider versions, English output fidelity, structured output, cost, fallback behavior |
 | Embeddings | Open | English-to-Spanish retrieval, names, legislation, idioms, numerical questions, cost |
-| Live-search provider | Open | Permitted access, provenance/times, retention, results quality, price |
-| Source roster/retention | Candidates only | Connector validation, actual history, permitted text/snapshots, duplication/failure behavior |
+| Live-search provider | Open. Bilingual (es + en) search discovery and a `SearchProvider` interface exist (`packages/connectors/src/search.ts`); a provider would also unblock Banco Central de Chile document discovery | Permitted access, provenance/times, retention, results quality, price, Spanish-query quality |
+| Source roster/retention | Central bank channels have connectors and onboarding records ([records](../config/sources/records/)); none active. Other sources are candidates | Owner confirmation of storage policy against each publisher's terms; actual history; journalism samples |
+| Publisher bot protection | Open. `*.banrep.gov.co` (Radware) challenges after roughly 5–14 requests from one IP; `www.bcentral.cl` HTML (Imperva Incapsula) challenges every non-browser request. We detect and report challenges and never solve or evade them | Challenge rate from deployment egress; responses to allowlisting requests sent to both banks |
+| Banco Central de Chile documents | Open: allowlisting vs live-search discovery of open `/documents/` PDFs | Allowlisting response; search-provider choice and cost |
+| Banco Central de Chile statistics | Needs a BDE account and API Key Token (`BCCH_BDE_TOKEN` in Secret Manager) | Live validation of units/adjustment for curated series |
+| PDF text extraction | Open; needed for reports (Monetary Policy Reports, minutes PDFs) | Library choice, table fidelity, cost; Banco de la República bitstreams are currently captcha-gated |
 | Telemetry | LangSmith Developer candidate; Cloud Logging/Monitoring defaults | Redaction, sampling, retention, export failure, independent spend cap |
 | Durable dispatch | Cloud Tasks or equivalent | Leases, retry/overlap behavior, execution identity, cost |
 | Archive beyond first month | Open | Storage measurements and source policies |

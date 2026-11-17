@@ -2,5 +2,15 @@
   "name": "@dottext/connectors",
   "version": "0.1.0",
   "private": true,
-  "description": "Scaffold for dottext connectors"
+  "description": "Publisher-specific discovery, fetch, and extraction",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@dottext/contracts": "*",
+    "fast-xml-parser": "5.12.0",
+    "linkedom": "^0.18.15",
+    "zod": "^4.6.7"
+  }
 }
