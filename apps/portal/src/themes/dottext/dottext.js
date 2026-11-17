@@ -432,6 +432,24 @@ export const dottextTheme = {
       "base": {
         "padding": "var(--spacing-3)"
       }
+    },
+    "nav-icon": {
+      "base": {
+        "--size-element-md": "2.75rem"
+      }
+    },
+    "top-nav-item": {
+      "base": {
+        "--text-label-size": "var(--font-size-sm)",
+        "--spacing-1-5": "var(--spacing-1)",
+        "--spacing-3": "var(--spacing-2)"
+      }
+    },
+    "top-nav-heading": {
+      "base": {
+        "--text-large-size": "var(--font-size-xl)",
+        "--font-weight-semibold": "var(--font-weight-bold)"
+      }
     }
   },
   __onDark: {

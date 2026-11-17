@@ -1,7 +1,7 @@
 'use client';
 
 // Frame adapted from the Astryx `table-page` template (scrolling masthead over a
-// capped content column), narrowed to a 680px reading measure. Controls sit in
+// capped content column), narrowed to a 760px reading measure. Controls sit in
 // one quiet row; the article below is plain prose with generous section gaps.
 
 import {useMemo, useState} from 'react';
@@ -136,7 +136,7 @@ export function BriefingView() {
   return (
     <Layout
       height="fill"
-      contentWidth={680}
+      contentWidth={760}
       content={
         <LayoutContent padding={6}>
           <VStack gap={8}>

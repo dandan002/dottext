@@ -535,6 +535,21 @@
     --astryx-section-padding: var(--spacing-3);
   }
 
+  .astryx-nav-icon {
+    --size-element-md: 2.75rem;
+  }
+
+  .astryx-top-nav-item {
+    --text-label-size: var(--font-size-sm);
+    --spacing-1-5: var(--spacing-1);
+    --spacing-3: var(--spacing-2);
+  }
+
+  .astryx-top-nav-heading {
+    --text-large-size: var(--font-size-xl);
+    --font-weight-semibold: var(--font-weight-bold);
+  }
+
   .astryx-text[data-color="primary"] { color: var(--color-text-primary); }
 
   .astryx-heading[data-color="primary"] { color: var(--color-text-primary); }

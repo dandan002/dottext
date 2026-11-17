@@ -1,14 +1,16 @@
 'use client';
 
-// Collected news, one column per country. Headlines are rows (List), not
-// cards, so a column scans top to bottom like a wire. Selecting a headline
-// hands it to the agent as a starting question.
+// Collected news, grouped by country and laid out like a news front: each
+// country is a section under a strong rule, its newest headline leads at
+// display size and the rest follow in columns, newest first. Every story is a
+// ClickableCard; selecting one hands it to the agent as a starting question.
 
 import {useMemo, useState} from 'react';
 import {Search} from 'lucide-react';
+import {ClickableCard} from '@astryxdesign/core/ClickableCard';
+import {Divider} from '@astryxdesign/core/Divider';
 import {Grid} from '@astryxdesign/core/Grid';
 import {HStack, StackItem, VStack} from '@astryxdesign/core/Layout';
-import {List, ListItem} from '@astryxdesign/core/List';
 import {
   SegmentedControl,
   SegmentedControlItem,
@@ -39,31 +41,94 @@ const TOPIC_OPTIONS = [
   })),
 ];
 
-function HeadlineRow({
+function Story({
   headline,
   timeZone,
+  isLead,
   onAsk,
 }: {
   headline: SampleHeadline;
   timeZone: string;
+  isLead: boolean;
   onAsk: (headline: SampleHeadline) => void;
 }) {
   return (
-    <ListItem
-      align="first-line"
-      label={
-        <Text weight="medium" as="span" display="block">
-          {headline.title}
+    <ClickableCard
+      label={`Ask the agent about: ${headline.title}`}
+      variant="transparent"
+      padding={0}
+      onClick={() => onAsk(headline)}>
+      <VStack gap={isLead ? 2 : 1}>
+        <Text type="supporting" weight="semibold">
+          {TOPIC_LABEL[headline.topic].toLocaleUpperCase('en-US')}
         </Text>
-      }
-      description={`${headline.source} · ${TOPIC_LABEL[headline.topic]}`}
-      endContent={
+        {isLead ? (
+          <Heading level={3} type="display-3" weight="semibold">
+            {headline.title}
+          </Heading>
+        ) : (
+          <Heading level={3}>{headline.title}</Heading>
+        )}
         <Text type="supporting" hasTabularNumbers>
-          {formatHeadlineTime(headline.publishedAt, timeZone)}
+          {`${headline.source} · ${formatHeadlineTime(headline.publishedAt, timeZone)}`}
         </Text>
-      }
-      onClick={() => onAsk(headline)}
-    />
+      </VStack>
+    </ClickableCard>
+  );
+}
+
+function CountrySection({
+  country,
+  items,
+  timeZone,
+  onAsk,
+}: {
+  country: Country;
+  items: SampleHeadline[];
+  timeZone: string;
+  onAsk: (headline: SampleHeadline) => void;
+}) {
+  const [lead, ...rest] = items;
+  return (
+    <VStack gap={4} as="section">
+      <Divider variant="strong" />
+      <HStack gap={2} vAlign="end">
+        <StackItem size="fill">
+          <Heading level={2} weight="bold">
+            {COUNTRY_LABEL[country]}
+          </Heading>
+        </StackItem>
+        <Text type="supporting">
+          {`${items.length} ${items.length === 1 ? 'headline' : 'headlines'} · latest first`}
+        </Text>
+      </HStack>
+      {lead == null ? (
+        <Text color="secondary">No headlines match these filters.</Text>
+      ) : (
+        <VStack gap={5}>
+          <Story headline={lead} timeZone={timeZone} isLead onAsk={onAsk} />
+          {rest.length > 0 && (
+            <>
+              <Divider />
+              <Grid
+                columns={{minWidth: 220, max: 3, repeat: 'fit'}}
+                columnGap={6}
+                rowGap={5}>
+                {rest.map(headline => (
+                  <Story
+                    key={headline.id}
+                    headline={headline}
+                    timeZone={timeZone}
+                    isLead={false}
+                    onAsk={onAsk}
+                  />
+                ))}
+              </Grid>
+            </>
+          )}
+        </VStack>
+      )}
+    </VStack>
   );
 }
 
@@ -97,7 +162,7 @@ export function HeadlinesPanel({
   }, [period, topic, query]);
 
   return (
-    <VStack gap={6}>
+    <VStack gap={8}>
       <HStack gap={3} vAlign="center" hAlign="between" wrap="wrap">
         <HStack gap={3} vAlign="center" wrap="wrap">
           <SegmentedControl
@@ -130,37 +195,17 @@ export function HeadlinesPanel({
         </VStack>
       </HStack>
 
-      <Grid columns={{minWidth: 360}} columnGap={10} rowGap={8}>
-        {COUNTRIES.map(country => {
-          const items = byCountry[country];
-          return (
-            <VStack key={country} gap={2} as="section">
-              <HStack gap={2} vAlign="end">
-                <StackItem size="fill">
-                  <Heading level={2}>{COUNTRY_LABEL[country]}</Heading>
-                </StackItem>
-                <Text type="supporting">
-                  {`${items.length} ${items.length === 1 ? 'headline' : 'headlines'}`}
-                </Text>
-              </HStack>
-              {items.length === 0 ? (
-                <Text color="secondary">No headlines match these filters.</Text>
-              ) : (
-                <List hasDividers edge="flush" density="spacious">
-                  {items.map(headline => (
-                    <HeadlineRow
-                      key={headline.id}
-                      headline={headline}
-                      timeZone={timeZone}
-                      onAsk={onAsk}
-                    />
-                  ))}
-                </List>
-              )}
-            </VStack>
-          );
-        })}
-      </Grid>
+      <VStack gap={10}>
+        {COUNTRIES.map(country => (
+          <CountrySection
+            key={country}
+            country={country}
+            items={byCountry[country]}
+            timeZone={timeZone}
+            onAsk={onAsk}
+          />
+        ))}
+      </VStack>
 
       <Text type="supporting">
         Sample headlines that show the layout; nothing has been collected yet.
