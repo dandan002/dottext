@@ -1,4 +1,4 @@
-import type {DiscoveredItem, ExtractedDocument, Problem, SourceDefinition, TimeValue} from '@dottext/contracts';
+import type {DiscoveredItem, ExtractedDocument, Observation, Problem, SourceDefinition, TimeValue} from '@dottext/contracts';
 import type {HttpFailure} from './http/client.ts';
 
 export interface CollectionWindow {
@@ -42,4 +42,17 @@ export interface DocumentConnector {
 
 export function problemFromHttp(stage: Problem['stage'], failure: HttpFailure): Problem {
   return {stage, kind: failure.kind, url: failure.url, httpStatus: failure.status, message: failure.message};
+}
+
+export type ObservationFetchResult = {ok: true; observations: Observation[]} | {ok: false; problem: Problem};
+
+/**
+ * Statistical source. Each configured item (a BDE series, an SDMX dataflow) may
+ * yield several series; observations carry their own `seriesId`.
+ */
+export interface ObservationFetcher {
+  readonly sourceId: string;
+  /** Configured item IDs collected each run, in order. */
+  readonly items: readonly string[];
+  fetch(itemId: string, window: {since: string; until: string}, retrievedAt: Date): Promise<ObservationFetchResult>;
 }

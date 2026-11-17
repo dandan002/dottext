@@ -6,6 +6,8 @@
  *   npm run collect -- --source banrep-repositorio --since 2026-10-17
  *   npm run collect -- --source bcch-bde [--since …]            (needs BCCH_BDE_TOKEN)
  *   npm run collect -- --source bcch-bde --find cpi [--frequency MONTHLY]
+ *   npm run collect -- --source banrep-sdmx [--since …]          (open SDMX API, no token)
+ *   npm run collect -- --source banrep-sdmx --find all          (bilingual dataflow search)
  *
  * Defaults: one-month window ending now (the backfill target), data in .data/collect.
  * Refuses inactive/blocked sources unless --allow-inactive is given.
@@ -15,13 +17,15 @@
 import {parseArgs} from 'node:util';
 import type {Frequency, RunStatus} from '@dottext/contracts';
 import {
+  BanrepSdmxClient,
   BdeClient,
   createDocumentConnector,
+  createObservationFetcher,
+  findDataflows,
   findSeries,
   httpClientFor,
   loadConcepts,
   loadRegistry,
-  loadSeriesConfig,
 } from '@dottext/connectors';
 import {JsonDirStore, runDocumentCollection, runObservationCollection} from '@dottext/ingestion';
 
@@ -64,10 +68,9 @@ async function main(): Promise<number> {
     return 1;
   }
 
-  if (entry.connector.type === 'bcch-bde') {
-    const token = process.env[entry.connector.tokenEnv] ?? null;
+  if (entry.connector.type === 'bcch-bde' || entry.connector.type === 'banrep-sdmx') {
+    const token = entry.connector.type === 'bcch-bde' ? (process.env[entry.connector.tokenEnv] ?? null) : null;
     const http = httpClientFor(entry, {secretValues: token ? [token] : []});
-    const client = new BdeClient({http, token, sourceId: entry.id});
 
     if (values.find) {
       const concepts = loadConcepts().seriesConcepts.filter((c) => values.find === 'all' || c.id === values.find);
@@ -75,23 +78,38 @@ async function main(): Promise<number> {
         console.error(`no series concept "${values.find}"; see config/sources/central-bank-concepts.json`);
         return 1;
       }
-      const catalog = await client.searchSeries(values.frequency as Frequency);
-      if (!catalog.ok) {
-        console.error(JSON.stringify(catalog.problem, null, 2));
-        return catalog.problem.kind === 'missing_credential' ? 3 : 1;
-      }
-      for (const concept of concepts) {
-        const matches = findSeries(catalog.value, concept);
-        console.log(`\n# ${concept.id}: ${matches.length} candidates (es terms: ${concept.es.join(' | ')}; en terms: ${concept.en.join(' | ')})`);
-        for (const {record, matchedIn} of matches) {
-          console.log(`${record.seriesId}\t[${matchedIn.join('+')}]\t${record.titleEs ?? '—'}\t/\t${record.titleEn ?? '—'}`);
+      let candidates: Array<{id: string; matchedIn: string[]; es: string | null; en: string | null}>[];
+      if (entry.connector.type === 'bcch-bde') {
+        const catalog = await new BdeClient({http, token, sourceId: entry.id}).searchSeries(values.frequency as Frequency);
+        if (!catalog.ok) {
+          console.error(JSON.stringify(catalog.problem, null, 2));
+          return catalog.problem.kind === 'missing_credential' ? 3 : 1;
         }
+        candidates = concepts.map((c) =>
+          findSeries(catalog.value, c).map(({record, matchedIn}) => ({id: record.seriesId, matchedIn, es: record.titleEs, en: record.titleEn})),
+        );
+      } else {
+        const flows = await new BanrepSdmxClient({http, sourceId: entry.id, baseUrl: entry.connector.baseUrl}).listDataflows();
+        if (!flows.ok) {
+          console.error(JSON.stringify(flows.problem, null, 2));
+          return flows.problem.kind === 'blocked_by_bot_protection' ? 3 : 1;
+        }
+        candidates = concepts.map((c) =>
+          findDataflows(flows.dataflows, c).map(({record, matchedIn}) => ({id: record.id, matchedIn, es: record.nameEs, en: record.nameEn})),
+        );
       }
+      concepts.forEach((concept, i) => {
+        const matches = candidates[i] ?? [];
+        console.log(`\n# ${concept.id}: ${matches.length} candidates (es: ${concept.es.join(' | ')}; en: ${concept.en.join(' | ')})`);
+        for (const m of matches) console.log(`${m.id}\t[${m.matchedIn.join('+')}]\t${m.es ?? '—'}\t/\t${m.en ?? '—'}`);
+      });
       return 0;
     }
 
+    const fetcher = createObservationFetcher(entry, http);
+    if (!fetcher) return 1;
     const store = new JsonDirStore(values['data-dir']!);
-    const report = await runObservationCollection(client, entry.id, loadSeriesConfig(entry.connector.seriesFile), store, {
+    const report = await runObservationCollection(fetcher, store, {
       window: {since: since.toISOString().slice(0, 10), until: until.toISOString().slice(0, 10)},
       requestStats: http.stats,
     });

@@ -1,7 +1,7 @@
 import type {Frequency, Observation, Problem, SeriesDescriptor} from '@dottext/contracts';
 import {z} from 'zod';
 import {matchBilingual, type BilingualConcept} from '../bilingual.ts';
-import {problemFromHttp} from '../connector.ts';
+import {problemFromHttp, type ObservationFetcher} from '../connector.ts';
 import type {PoliteHttpClient} from '../http/client.ts';
 
 /**
@@ -221,4 +221,18 @@ function descriptorFromInfo(info: z.infer<typeof BdeSeriesInfo>, sourceId: strin
 
 function problem(stage: Problem['stage'], kind: Problem['kind'], message: string): Problem {
   return {stage, kind, url: null, httpStatus: null, message};
+}
+
+/** Pipeline adapter: one configured BDE series per item. */
+export function bdeFetcher(client: BdeClient, sourceId: string, series: readonly SeriesConfig[]): ObservationFetcher {
+  const byId = new Map(series.map((s) => [s.seriesId, s]));
+  return {
+    sourceId,
+    items: series.map((s) => s.seriesId),
+    async fetch(itemId, window, retrievedAt) {
+      const config = byId.get(itemId) ?? {seriesId: itemId};
+      const result = await client.getSeries(itemId, {firstDate: window.since, lastDate: window.until}, config, retrievedAt);
+      return result.ok ? {ok: true, observations: result.value.observations} : result;
+    },
+  };
 }

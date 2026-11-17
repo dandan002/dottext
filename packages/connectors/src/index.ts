@@ -12,3 +12,4 @@ export * from './oai/pmh.ts';
 export * from './oai/connector.ts';
 export * from './bcch/bde.ts';
 export * from './registry.ts';
+export * from './banrep/sdmx.ts';

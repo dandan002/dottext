@@ -3,40 +3,156 @@
   "documentConcepts": [
     {
       "id": "policy-rate-decision",
-      "es": ["decisión de política monetaria", "tasa de política monetaria", "comunicado RPM", "Reunión de Política Monetaria"],
-      "en": ["monetary policy decision", "monetary policy rate", "Monetary Policy Meeting statement"]
+      "es": [
+        "decisión de política monetaria",
+        "tasa de política monetaria",
+        "comunicado RPM",
+        "Reunión de Política Monetaria"
+      ],
+      "en": [
+        "monetary policy decision",
+        "monetary policy rate",
+        "Monetary Policy Meeting statement"
+      ]
     },
     {
       "id": "policy-minutes",
-      "es": ["minutas de política monetaria", "acta Reunión de Política Monetaria"],
-      "en": ["monetary policy minutes", "minutes of the Monetary Policy Meeting"]
+      "es": [
+        "minutas de política monetaria",
+        "acta Reunión de Política Monetaria"
+      ],
+      "en": [
+        "monetary policy minutes",
+        "minutes of the Monetary Policy Meeting"
+      ]
     },
     {
       "id": "monetary-policy-report",
-      "es": ["Informe de Política Monetaria", "IPoM"],
-      "en": ["Monetary Policy Report"]
+      "es": [
+        "Informe de Política Monetaria",
+        "IPoM"
+      ],
+      "en": [
+        "Monetary Policy Report"
+      ]
     },
     {
       "id": "financial-stability-report",
-      "es": ["Informe de Estabilidad Financiera", "Reporte de Estabilidad Financiera"],
-      "en": ["Financial Stability Report"]
+      "es": [
+        "Informe de Estabilidad Financiera",
+        "Reporte de Estabilidad Financiera"
+      ],
+      "en": [
+        "Financial Stability Report"
+      ]
     },
     {
       "id": "fx-intervention-reserves",
-      "es": ["intervención cambiaria", "compra de divisas", "acumulación de reservas internacionales"],
-      "en": ["foreign exchange intervention", "foreign currency purchases", "international reserve accumulation"]
+      "es": [
+        "intervención cambiaria",
+        "compra de divisas",
+        "acumulación de reservas internacionales"
+      ],
+      "en": [
+        "foreign exchange intervention",
+        "foreign currency purchases",
+        "international reserve accumulation"
+      ]
     },
     {
       "id": "official-speeches",
-      "es": ["discurso", "presentación del Consejo", "presentación del Gerente"],
-      "en": ["speech", "presentation by the Governor"]
+      "es": [
+        "discurso",
+        "presentación del Consejo",
+        "presentación del Gerente"
+      ],
+      "en": [
+        "speech",
+        "presentation by the Governor"
+      ]
     }
   ],
   "seriesConcepts": [
-    {"id": "policy-rate", "es": ["tasa de política monetaria", "TPM"], "en": ["monetary policy rate", "MPR"]},
-    {"id": "cpi", "es": ["IPC", "índice de precios al consumidor"], "en": ["CPI", "consumer price index"]},
-    {"id": "imacec", "es": ["Imacec"], "en": ["Imacec"]},
-    {"id": "usd-clp", "es": ["dólar observado"], "en": ["observed dollar"]},
-    {"id": "copper-price", "es": ["precio del cobre"], "en": ["copper price"]}
+    {
+      "id": "policy-rate",
+      "es": [
+        "tasa de política monetaria",
+        "TPM"
+      ],
+      "en": [
+        "monetary policy rate",
+        "MPR",
+        "central bank rate"
+      ]
+    },
+    {
+      "id": "cpi",
+      "es": [
+        "IPC",
+        "índice de precios al consumidor"
+      ],
+      "en": [
+        "CPI",
+        "consumer price index"
+      ]
+    },
+    {
+      "id": "imacec",
+      "es": [
+        "Imacec"
+      ],
+      "en": [
+        "Imacec"
+      ]
+    },
+    {
+      "id": "usd-clp",
+      "es": [
+        "dólar observado"
+      ],
+      "en": [
+        "observed dollar"
+      ]
+    },
+    {
+      "id": "copper-price",
+      "es": [
+        "precio del cobre"
+      ],
+      "en": [
+        "copper price"
+      ]
+    },
+    {
+      "id": "usd-cop",
+      "es": [
+        "tasa representativa del mercado",
+        "TRM"
+      ],
+      "en": [
+        "exchange rate"
+      ]
+    },
+    {
+      "id": "ibr",
+      "es": [
+        "Indicador Bancario de Referencia",
+        "IBR"
+      ],
+      "en": [
+        "IBR"
+      ]
+    },
+    {
+      "id": "uvr",
+      "es": [
+        "Unidad de Valor Real",
+        "UVR"
+      ],
+      "en": [
+        "UVR",
+        "RVU"
+      ]
+    }
   ]
 }

@@ -14,6 +14,7 @@ be used as evidence.
 | `oai/*.xml` | `repositorio.banrep.gov.co/server/oai/request` (DSpace 7 OAI-PMH) | Synthetic records; real crosswalk quirks (three `dc:date` values, bilingual titles, untitled record) |
 | `bcch/bde-getseries.json`, `bde-searchseries.json` | BCCh BDE REST API | Reproduced from the publisher's public API documentation examples (checked 2026-11-17) |
 | `bcch/bde-error.json` | BDE error envelope | Synthetic |
+| `banrep-sdmx/*.xml` | `totoro.banrep.gov.co` SDMX 2.1 structure and generic-data messages | Synthetic names and values; real layout, key dimensions, `YYYYMMDD` periods, and a name typo seen live |
 | `challenges/*.html` | Radware Bot Manager and Imperva Incapsula challenge pages | Minimal vendor boilerplate; no publisher content, no tracking IDs |
 
 Real pages captured during validation were kept out of the repository: Banco de la

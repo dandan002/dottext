@@ -79,7 +79,7 @@ describe('configuration', () => {
     const registry = loadRegistry();
     assert.deepEqual(
       registry.map((s) => s.id),
-      ['banrep-web', 'banrep-repositorio', 'bcch-web', 'bcch-bde', 'bcch-repositorio'],
+      ['banrep-web', 'banrep-repositorio', 'banrep-sdmx', 'bcch-web', 'bcch-bde', 'bcch-repositorio'],
     );
     assert.ok(registry.every((s) => s.status !== 'active'), 'no source is active before owner approval');
     for (const concept of [...loadConcepts().documentConcepts, ...loadConcepts().seriesConcepts]) {
