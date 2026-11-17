@@ -1,6 +1,6 @@
 # Portal
 
-Build the private portal with Next.js, TypeScript, and the [Astryx](https://www.npmjs.com/package/@astryxdesign/core) design system, on a local `dottext` theme that extends `neutral` with 16px body text, 1.6 line height and stronger secondary text. This replaces the earlier Tailwind and shadcn/ui working default.
+Build the private portal with Next.js, TypeScript, and the [Astryx](https://www.npmjs.com/package/@astryxdesign/core) design system, on a local `dottext` theme that extends `neutral` with 16px body text, 1.6 line height, stronger secondary text in dark mode, and softened greys in place of black: charcoal text and primary buttons in light mode (`#2b2b2b`, `#474747`), and a `#262626` ground with `#303030` panels in dark mode. This replaces the earlier Tailwind and shadcn/ui working default.
 
 ## Current state
 
@@ -10,9 +10,9 @@ A design shell: no real auth, data access, or research routes.
 | --- | --- |
 | `/login` | Sign-in form outside the app frame |
 | `/briefings` | Reading view with country/period controls, analyst tabs, **Copy** (rich text with a plain-text fallback) and **Download** (.md, .txt, .html) |
-| `/research` | **Agent** tab (question composer, transcript, explicit evidence gaps, separate live-search action) and **Headlines** tab (news grouped by country, filterable by period, topic and keyword; selecting a headline hands it to the agent) |
+| `/research` | **Agent** tab (question composer, transcript, explicit evidence gaps, separate live-search action) and **Headlines** tab (news-style, grouped by country with the latest headline leading each section; filterable by period, topic and keyword; selecting a headline hands it to the agent) |
 | `/coverage` | Source health and spend; the roster mirrors the inactive candidates in `config/sources` |
-| `/account` | Profile, timezone, briefing defaults, workspace, sign out; also reachable from the account menu at the bottom of the rail |
+| `/account` | Profile, timezone, briefing defaults, workspace, sign out; also reachable from the account menu at the right of the top bar |
 
 **Sign-in is a preview stub** (`src/lib/session.tsx`): any email starts a browser-local session and nothing is verified or protected. Replace it with the chosen provider and server-side workspace checks before any real data is served; see [open decisions](../../docs/decisions.md). Briefing prose and headlines are labeled on screen as sample content, not collected evidence.
 

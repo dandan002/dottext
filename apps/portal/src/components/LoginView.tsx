@@ -60,7 +60,7 @@ export function LoginView() {
         <VStack gap={2} hAlign="center">
           <Icon icon={TextQuote} size="lg" />
           <Text weight="semibold" type="large">
-            dottext
+            DotTeXT
           </Text>
         </VStack>
 

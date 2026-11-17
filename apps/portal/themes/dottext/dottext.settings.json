@@ -15,15 +15,181 @@
     },
     {
       "thing": "--color-text-secondary",
-      "value": "#4b4b4b",
+      "value": "#bdbdbd",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-text-primary",
+      "value": "#2b2b2b",
       "source": "token",
       "mode": "light"
     },
     {
-      "thing": "--color-text-secondary",
-      "value": "#bdbdbd",
+      "thing": "--color-text-primary",
+      "value": "#ededed",
       "source": "token",
       "mode": "dark"
+    },
+    {
+      "thing": "--color-icon-primary",
+      "value": "#2b2b2b",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-icon-primary",
+      "value": "#ededed",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-accent",
+      "value": "#474747",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-accent",
+      "value": "#dcdcdc",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-text-accent",
+      "value": "#474747",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-text-accent",
+      "value": "#dcdcdc",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-icon-accent",
+      "value": "#474747",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-icon-accent",
+      "value": "#dcdcdc",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-on-accent",
+      "value": "#262626",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-text-secondary",
+      "value": "#5e5e5e",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-on-dark",
+      "value": "#ededed",
+      "source": "token",
+      "note": "the neutral theme's own part styles read --color-on-dark, so the change shows where they use it"
+    },
+    {
+      "thing": "--color-background-body",
+      "value": "#262626",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-background-surface",
+      "value": "#303030",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-background-card",
+      "value": "#262626",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-background-popover",
+      "value": "#262626",
+      "source": "token",
+      "mode": "dark",
+      "note": "no part of this Core reads --color-background-popover, and no token it feeds is read, so it changes nothing you see now; it is set as asked because a dial writes it too"
+    },
+    {
+      "thing": "--color-background-muted",
+      "value": "#262626",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-background-gray",
+      "value": "#3b3b3b",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-syntax-background",
+      "value": "#262626",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-text-secondary",
+      "value": "#4b4b4b",
+      "source": "token",
+      "on": "citation",
+      "when": "variant:number",
+      "mode": "light",
+      "note": "feeds color on citation (when variant=label), color on citation (when variant=number)"
+    },
+    {
+      "thing": "--size-element-md",
+      "value": "2.75rem",
+      "source": "token",
+      "on": "nav-icon",
+      "note": "feeds width on nav-icon, height on nav-icon"
+    },
+    {
+      "thing": "--text-label-size",
+      "value": "var(--font-size-sm)",
+      "source": "token",
+      "on": "top-nav-item",
+      "note": "feeds font-size on top-nav-item (when selected=selected), font-size on top-nav-item"
+    },
+    {
+      "thing": "--spacing-1-5",
+      "value": "var(--spacing-1)",
+      "source": "token",
+      "on": "top-nav-item",
+      "note": "feeds padding-block on top-nav-item (when selected=selected), padding-block on top-nav-item"
+    },
+    {
+      "thing": "--spacing-3",
+      "value": "var(--spacing-2)",
+      "source": "token",
+      "on": "top-nav-item",
+      "note": "feeds padding-inline on top-nav-item (when selected=selected), padding-inline on top-nav-item"
+    },
+    {
+      "thing": "--text-large-size",
+      "value": "var(--font-size-xl)",
+      "source": "token",
+      "on": "top-nav-heading",
+      "note": "feeds font-size on top-nav-heading"
+    },
+    {
+      "thing": "--font-weight-semibold",
+      "value": "var(--font-weight-bold)",
+      "source": "token",
+      "on": "top-nav-heading",
+      "note": "feeds font-weight on top-nav-heading"
     }
   ],
   "lifted": []

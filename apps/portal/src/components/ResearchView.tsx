@@ -54,7 +54,7 @@ export function ResearchView() {
   return (
     <Layout
       height="fill"
-      contentWidth={800}
+      contentWidth={880}
       header={
         <LayoutHeader padding={6} paddingBlockEnd={0}>
           <VStack gap={4}>
