@@ -97,7 +97,7 @@ describe('runDocumentCollection', () => {
     assert.equal(first.documents.new, 2);
     assert.equal(store.revisions.size, 2);
 
-    const second = await runDocumentCollection(connector, store, {window: WINDOW, now: NOW});
+    const second = await runDocumentCollection(connector, store, {window: WINDOW, now: NOW, refetchIntervalHours: 0});
     assert.equal(second.status, 'succeeded_quiet');
     assert.equal(second.documents.unchanged, 2);
     assert.equal(store.revisions.size, 2, 'replaying a run must not duplicate revisions');
@@ -112,7 +112,7 @@ describe('runDocumentCollection', () => {
     await runDocumentCollection(connector, store, {window: WINDOW, now: NOW});
 
     connector.serve(A, 'SYNTHETIC: la tasa quedó en 9,75 %. (Corregido)');
-    const report = await runDocumentCollection(connector, store, {window: WINDOW, now: NOW});
+    const report = await runDocumentCollection(connector, store, {window: WINDOW, now: NOW, refetchIntervalHours: 0});
     assert.equal(report.documents.revised, 1);
 
     const [original, corrected] = await store.listRevisions([...store.revisions.values()][0]!.documentId);
@@ -123,7 +123,7 @@ describe('runDocumentCollection', () => {
 
     // Reverting to the original wording is recorded as a further revision, not lost.
     connector.serve(A, 'SYNTHETIC: la tasa quedó en 9,99 %.');
-    const reverted = await runDocumentCollection(connector, store, {window: WINDOW, now: NOW});
+    const reverted = await runDocumentCollection(connector, store, {window: WINDOW, now: NOW, refetchIntervalHours: 0});
     assert.equal(reverted.documents.revised, 1);
     assert.equal(store.revisions.size, 3);
   });
@@ -139,6 +139,27 @@ describe('runDocumentCollection', () => {
     const report = await runDocumentCollection(connector, store, {window: WINDOW, now: NOW, refetchKnownWithinDays: 7});
     assert.equal(report.documents.skippedKnown, 1);
     assert.deepEqual(connector.fetched, []);
+  });
+
+  test('hourly runs recheck a recent known item at most once per refetch interval', async () => {
+    const store = new MemoryStore();
+    const connector = new FakeConnector();
+    connector.listed = [item(A)];
+    connector.serve(A, 'SYNTHETIC');
+    let clock = Date.parse('2026-11-17T14:00:00Z');
+    const now = () => new Date(clock);
+    await runDocumentCollection(connector, store, {window: WINDOW, now});
+    connector.fetched = [];
+
+    clock += 3_600_000; // one hour later
+    const hourly = await runDocumentCollection(connector, store, {window: WINDOW, now});
+    assert.equal(hourly.documents.skippedKnown, 1);
+    assert.deepEqual(connector.fetched, []);
+
+    clock += 24 * 3_600_000; // a day later: due for a correction check
+    const daily = await runDocumentCollection(connector, store, {window: WINDOW, now});
+    assert.equal(daily.documents.unchanged, 1);
+    assert.deepEqual(connector.fetched, [A]);
   });
 
   test('blocked discovery is reported as blocked, never as a quiet day', async () => {

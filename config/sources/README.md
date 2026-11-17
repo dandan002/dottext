@@ -21,7 +21,7 @@ Machine-readable definitions: [`registry.json`](registry.json) (validated by `pa
 
 **Search in both languages.** Wherever discovery searches — a statistics catalog, a repository, or a web-search provider — every concept is queried in the native language and in English and the results merged, recording which language found each hit. Central banks publish Spanish first, translate selectively, and index some material bilingually; one language alone misses items.
 
-**Bot protection.** Challenges are detected and reported as `blocked`, never parsed as content or as a quiet day. We do not solve or evade challenges; the remedies are allowlisting by the publisher or another permitted channel.
+**Bot protection.** Challenges are detected and reported as `blocked`, never parsed as content or as a quiet day. We do not solve or evade challenges; the remedies are allowlisting by the publisher or another permitted channel. Allowlisting requests to both banks are drafted (not sent) in [`outreach/`](outreach/README.md).
 
 Accessible local economic research can provide attributed institutional views. Source availability is not equivalent to representativeness.
 

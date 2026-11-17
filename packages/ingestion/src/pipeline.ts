@@ -21,6 +21,11 @@ export interface DocumentRunOptions {
    * time is within this many days, to catch silent corrections. Default 7.
    */
   refetchKnownWithinDays?: number;
+  /**
+   * Minimum hours between refetches of the same known item, so hourly runs check a
+   * recent item for corrections about once a day rather than every hour. Default 24.
+   */
+  refetchIntervalHours?: number;
   /** Stop retrying an item after this many consecutive failures. Default 6. */
   maxConsecutiveFailures?: number;
   /** Discovery only: no fetches, no writes except the run report. */
@@ -45,6 +50,7 @@ export async function runDocumentCollection(
   const startedAt = now().toISOString();
   const source = connector.source;
   const refetchDays = options.refetchKnownWithinDays ?? 7;
+  const refetchIntervalMs = (options.refetchIntervalHours ?? 24) * 3_600_000;
   const maxFailures = options.maxConsecutiveFailures ?? 6;
   const problems: Problem[] = [];
   const counts = {new: 0, revised: 0, unchanged: 0, skippedKnown: 0, failed: 0, retriedFromEarlierRuns: 0};
@@ -77,7 +83,14 @@ export async function runDocumentCollection(
         pending: null,
       };
 
-      if (state.latestRevisionId && !state.pending && !connector.discoverySignalsChange && !isRecent(item, now(), refetchDays)) {
+      const checkedRecently =
+        state.lastSuccessAt !== null && now().getTime() - Date.parse(state.lastSuccessAt) < refetchIntervalMs;
+      if (
+        state.latestRevisionId &&
+        !state.pending &&
+        !connector.discoverySignalsChange &&
+        (!isRecent(item, now(), refetchDays) || checkedRecently)
+      ) {
         counts.skippedKnown++;
         continue;
       }

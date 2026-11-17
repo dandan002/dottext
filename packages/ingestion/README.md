@@ -22,7 +22,7 @@ Validate replay without duplicate stored outputs, lease overlap, partial failure
 `runDocumentCollection(connector, store, {window})` runs discover → retry pending → fetch+extract → contract validation → access policy → revision detection → store, and appends a `CollectionRunReport` whose status separates `succeeded`, `succeeded_quiet` (nothing new), `partial`, `blocked`, and `failed`.
 
 - **Revisions:** immutable, keyed by content hash over title + standfirst + text; a change links `previousRevisionId`; reverting to earlier wording is its own revision. Replaying a run stores nothing twice.
-- **Refetch policy:** listing connectors refetch known items listed within 7 days (corrections); OAI connectors process every item they rediscover (the datestamp moved).
+- **Refetch policy:** listing connectors recheck known items listed within 7 days for corrections, at most once per 24 hours each; OAI connectors process every item they rediscover (the datestamp moved).
 - **Retries:** failed items stay pending and are retried in later runs even after leaving the listing, up to 6 consecutive failures; contract-validation failures are not retried.
 - **Policy:** text beyond the source's `maxStoredText` is dropped and `textReducedByPolicy` set.
 - `runObservationCollection` stores statistical observations, keeping earlier vintages when a period's value changes.

@@ -16,4 +16,4 @@
 | Failure, retry, and rate behavior | `noRecordsMatch` = quiet success; other OAI errors fail the page. ORE failure fails the item (kept pending) rather than storing it without files. Radware challenged OAI after ~14 requests on 2026-11-17; client uses 10 s spacing, 10 requests/run, breaker after 2 challenges. |
 | Validation fixtures and run evidence | `packages/connectors/test/fixtures/oai/*` (synthetic records, real crosswalk quirks). Live run 2026-11-17: 1 page, 26 records listed, 23 actionable, **13 stored** (2 Monetary Policy Reports, 3 financial-stability, 7 reports, 1 working paper; 50 file links), 10 pending after challenges; status `partial`. |
 | Validation date / owner | 2026-11-17 / owner pending |
-| Activation decision | Pending owner confirmation of storage policy and OAI use; allowlisting request together with `banrep-web`. |
+| Activation decision | Pending owner confirmation of storage policy and OAI use; allowlisting request together with `banrep-web` ([draft](../outreach/banrep-access-request.md), not sent; it also asks about OAI use and storage). |
