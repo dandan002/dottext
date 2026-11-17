@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><responseDate>2026-11-17T13:26:10Z</responseDate><request verb="ListRecords" resumptionToken="oai_dc/2026-10-17T00:00:00Z///100">https://repositorio.banrep.gov.co/server/oai/request</request><ListRecords><record><header><identifier>oai:repositorio.banrep.gov.co:20.500.12134/99003</identifier><datestamp>2026-11-13T10:00:00Z</datestamp><setSpec>com_20.500.12134_7018</setSpec></header><metadata><oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <dc:date>2026-11-13T09:59:00Z</dc:date>
+   <dc:identifier>https://repositorio.banrep.gov.co/handle/20.500.12134/99003</dc:identifier>
+   <dc:language>spa</dc:language>
+</oai_dc:dc>
+</metadata></record><record><header status="deleted"><identifier>oai:repositorio.banrep.gov.co:20.500.12134/99004</identifier><datestamp>2026-11-12T08:00:00Z</datestamp></header></record><resumptionToken completeListSize="4" cursor="100"/></ListRecords></OAI-PMH>

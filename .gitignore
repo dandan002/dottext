@@ -15,3 +15,5 @@ next-env.d.ts
 # Theme editor preview renders
 apps/portal/themes/*/preview*
 apps/portal/themes/*/sheet*
+# Local collection output (scripts/collect.ts)
+.data/

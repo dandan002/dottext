@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="static/style.xsl"?><OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd"><responseDate>2026-11-17T13:26:00Z</responseDate><request verb="ListRecords" metadataPrefix="oai_dc" from="2026-10-17T00:00:00Z">https://repositorio.banrep.gov.co/server/oai/request</request><ListRecords><record><header><identifier>oai:repositorio.banrep.gov.co:20.500.12134/99001</identifier><datestamp>2026-11-10T16:07:49Z</datestamp><setSpec>com_20.500.12134_7018</setSpec><setSpec>col_20.500.12134_7264</setSpec></header><metadata><oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:doc="http://www.lyncode.com/xoai" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+   <dc:title>SYNTHETIC Informe de Política Monetaria - Octubre de 2026</dc:title>
+   <dc:creator>SYNTHETIC Departamento Inventado</dc:creator>
+   <dc:subject>SYNTHETIC Inflación</dc:subject>
+   <dc:subject>SYNTHETIC Inflation</dc:subject>
+   <dc:subject xml:lang="en">SYNTHETIC Monetary policy</dc:subject>
+   <dc:description>SYNTHETIC: Resumen del informe con cifras inventadas (9,99 %).</dc:description>
+   <dc:date>2026-11-04T15:52:22Z</dc:date>
+   <dc:date>2026-11-04T15:52:22Z</dc:date>
+   <dc:date>2026-11-04</dc:date>
+   <dc:type>Report</dc:type>
+   <dc:type>Informe</dc:type>
+   <dc:identifier>https://repositorio.banrep.gov.co/handle/20.500.12134/99001</dc:identifier>
+   <dc:identifier>https://hdl.handle.net/20.500.12134/99001</dc:identifier>
+   <dc:identifier>https://doi.org/10.32468/synthetic</dc:identifier>
+   <dc:language>spa</dc:language>
+   <dc:relation>https://www.banrep.gov.co/es/synthetic-related</dc:relation>
+   <dc:relation>Serie sintética</dc:relation>
+</oai_dc:dc>
+</metadata></record><record><header><identifier>oai:repositorio.banrep.gov.co:20.500.12134/99002</identifier><datestamp>2026-10-22T21:15:54Z</datestamp><setSpec>com_20.500.12134_32</setSpec></header><metadata><oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <dc:title>SYNTHETIC El desarrollo económico de un país inventado</dc:title>
+   <dc:title>SYNTHETIC The Economic Development of an Invented Country</dc:title>
+   <dc:creator>SYNTHETIC Autora, Una</dc:creator>
+   <dc:description>SYNTHETIC abstract paragraph one.</dc:description>
+   <dc:description>SYNTHETIC abstract paragraph two.</dc:description>
+   <dc:date>2026-10-22T14:49:19Z</dc:date>
+   <dc:date>2026-10-22T14:49:19Z</dc:date>
+   <dc:date>2026-10</dc:date>
+   <dc:type>Working Paper</dc:type>
+   <dc:type>Documentos de trabajo</dc:type>
+   <dc:identifier>https://repositorio.banrep.gov.co/handle/20.500.12134/99002</dc:identifier>
+   <dc:language>spa</dc:language>
+</oai_dc:dc>
+</metadata></record><resumptionToken completeListSize="4" cursor="0">oai_dc/2026-10-17T00:00:00Z///100</resumptionToken></ListRecords></OAI-PMH>

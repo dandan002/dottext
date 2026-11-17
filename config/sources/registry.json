@@ -1,0 +1,150 @@
+{
+  "$comment": "Validated by packages/connectors/src/registry.ts. Statuses reflect evidence gathered 2026-11-17; see each onboarding record. No source is 'active' until its record is complete and owner-approved.",
+  "sources": [
+    {
+      "id": "banrep-web",
+      "publisher": "Banco de la República",
+      "country": "colombia",
+      "kind": "official",
+      "channel": "website",
+      "languages": ["es", "en"],
+      "baseUrl": "https://www.banrep.gov.co",
+      "publisherTimeZone": "America/Bogota",
+      "status": "validating",
+      "statusReason": "Listing and article parsers validated on live pages 2026-11-17. Radware Bot Manager challenged most requests after roughly ten from one IP; measure from deployment egress and request allowlisting before activation.",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://www.banrep.gov.co/en/legal-notice",
+        "termsSummary": "Content is copyrighted; reproduction only where authorized or under legal exceptions, citing the source clearly; commercial or promotional use requires prior authorization; use that overloads the Bank's systems is prohibited.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {"minIntervalMs": 10000, "maxRequestsPerRun": 10, "challengeBreakerThreshold": 2},
+      "onboardingRecord": "config/sources/records/banrep-web.md",
+      "connector": {
+        "type": "banrep-web",
+        "listings": [
+          {"path": "/es/noticias", "language": "es"},
+          {"path": "/en/press-releases", "language": "en"}
+        ],
+        "maxPagesPerListing": 6
+      }
+    },
+    {
+      "id": "banrep-repositorio",
+      "publisher": "Banco de la República",
+      "country": "colombia",
+      "kind": "official",
+      "channel": "oai_pmh",
+      "languages": ["es", "en"],
+      "baseUrl": "https://repositorio.banrep.gov.co",
+      "publisherTimeZone": "America/Bogota",
+      "status": "validating",
+      "statusReason": "Live run 2026-11-17 stored 13 of 23 changed records (abstracts, bilingual titles, issued dates, 50 file links) before Radware challenged after ~14 requests; the rest are queued for retry. Bitstream (PDF) downloads are captcha-gated, so only abstracts are stored.",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://www.banrep.gov.co/en/legal-notice",
+        "termsSummary": "Same Banco de la República legal notice as the website: cite the source; no commercial or promotional use without prior authorization.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {"minIntervalMs": 10000, "maxRequestsPerRun": 10, "challengeBreakerThreshold": 2},
+      "onboardingRecord": "config/sources/records/banrep-repositorio.md",
+      "connector": {
+        "type": "oai-pmh",
+        "endpoint": "https://repositorio.banrep.gov.co/server/oai/request",
+        "sets": [],
+        "setNames": {
+          "com_20.500.12134_7018": "Reportes, Boletines e Informes",
+          "com_20.500.12134_9615": "Política monetaria y banca central",
+          "col_20.500.12134_7264": "Informe de Política Monetaria (anterior Informe sobre Inflación)",
+          "col_20.500.12134_9036": "Informes Especiales de Estabilidad Financiera",
+          "col_20.500.12134_7319": "Informe de la Junta Directiva al Congreso de la República",
+          "col_20.500.12134_5018": "Borradores de Economía"
+        },
+        "datestampTracksChanges": true,
+        "enrichAttachments": true,
+        "maxPagesPerSet": 10
+      }
+    },
+    {
+      "id": "bcch-web",
+      "publisher": "Banco Central de Chile",
+      "country": "chile",
+      "kind": "official",
+      "channel": "website",
+      "languages": ["es", "en"],
+      "baseUrl": "https://www.bcentral.cl",
+      "publisherTimeZone": "America/Santiago",
+      "status": "blocked",
+      "statusReason": "Every HTML page tested (press listings, press releases, terms, Liferay APIs) returns an Imperva Incapsula JavaScript challenge to non-browser clients; robots.txt also disallows search and */reunion-de-politica-monetaria-rpm* paths. PDFs under /documents/ are served openly, so discovery needs BCCh allowlisting or a live-search provider (bilingual search discovery is implemented, no provider chosen).",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://www.bcentral.cl/en/terms-of-use",
+        "termsSummary": "Material may be reviewed, downloaded, printed, or copied without alteration for personal or organizational use with proper citation; sale or distribution requires prior express authorization; third-party material needs its owner's consent.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {"minIntervalMs": 10000, "maxRequestsPerRun": 20, "challengeBreakerThreshold": 1},
+      "onboardingRecord": "config/sources/records/bcch-web.md",
+      "connector": {"type": "none"}
+    },
+    {
+      "id": "bcch-bde",
+      "publisher": "Banco Central de Chile",
+      "country": "chile",
+      "kind": "official",
+      "channel": "statistics_api",
+      "languages": ["es", "en"],
+      "baseUrl": "https://si3.bcentral.cl",
+      "publisherTimeZone": "America/Santiago",
+      "status": "blocked",
+      "statusReason": "Requires a BDE account with the API enabled and an API Key Token (env BCCH_BDE_TOKEN). Client built against the documented payload; not yet validated live.",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://si3.bcentral.cl/estadisticas/Principal1/Web_Services/terminos_condiciones.html",
+        "termsSummary": "Free, indefinite, revocable right to use BDE data; at most 5 series requests per second per enabled account; repeated breaches may suspend access.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {"minIntervalMs": 300, "maxRequestsPerRun": 60, "challengeBreakerThreshold": 2},
+      "onboardingRecord": "config/sources/records/bcch-bde.md",
+      "connector": {"type": "bcch-bde", "tokenEnv": "BCCH_BDE_TOKEN", "seriesFile": "config/sources/bcch-bde-series.json"}
+    },
+    {
+      "id": "bcch-repositorio",
+      "publisher": "Banco Central de Chile",
+      "country": "chile",
+      "kind": "official",
+      "channel": "oai_pmh",
+      "languages": ["es", "en"],
+      "baseUrl": "https://repositoriodigital.bcentral.cl",
+      "publisherTimeZone": "America/Santiago",
+      "status": "inactive",
+      "statusReason": "OAI-PMH answers machines (the web UI does not), but holdings are historical (policy meeting minutes 1997–2014, statistical yearbooks) and every record is re-stamped nightly, so incremental harvests return the whole repository (8,269 records on 2026-11-17). Kept for background backfill only.",
+      "accessPolicy": {
+        "maxStoredText": "full_text",
+        "storeSnapshots": false,
+        "termsUrl": "https://www.bcentral.cl/en/terms-of-use",
+        "termsSummary": "Banco Central de Chile site terms: unaltered copying for personal or organizational use with citation; no distribution without authorization.",
+        "termsReviewedOn": "2026-11-17",
+        "ownerConfirmed": false
+      },
+      "rateLimit": {"minIntervalMs": 5000, "maxRequestsPerRun": 100, "challengeBreakerThreshold": 2},
+      "onboardingRecord": "config/sources/records/bcch-repositorio.md",
+      "connector": {
+        "type": "oai-pmh",
+        "endpoint": "https://repositoriodigital.bcentral.cl/oai/request",
+        "sets": ["com_20.500.12580_4514"],
+        "setNames": {"com_20.500.12580_4514": "Actas de las Reuniones de Política Monetaria"},
+        "datestampTracksChanges": false,
+        "enrichAttachments": false,
+        "maxPagesPerSet": 20
+      }
+    }
+  ]
+}

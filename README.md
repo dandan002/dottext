@@ -2,7 +2,7 @@
 
 Private emerging markets research portal for sales and trading professionals. The pilot covers Chile and Colombia for one initial user, with a $50 monthly operating target. It complements Bloomberg and Refinitiv with English summaries of local sources, searchable evidence, and connected local color, macroeconomic outlook, and political analysis.
 
-**Specification:** Draft 0.1, Nov. 13, 2026. **Repository status:** documentation and directory scaffold only; no applications, connectors, infrastructure, tests, or measured capabilities are implemented.
+**Specification:** Draft 0.1, Nov. 13, 2026. **Repository status:** documentation scaffold, a portal design shell, and the first content-baseline slice: contracts, central bank connectors (Banco de la República website and repository; Banco Central de Chile statistics API), and the collection pipeline through revision detection, with tests. No source is active; see [source records](config/sources/README.md). No infrastructure or deployed services exist.
 
 ## Read first
 
@@ -45,7 +45,17 @@ docs/              Cross-cutting product, data, operations, and delivery require
 
 ## Working locally
 
-The root and component manifests declare a private npm workspace. Only the portal has dependencies so far: a Next.js design shell built with the Astryx design system (`npm install`, then `npm run dev -w @dottext/portal`; see [apps/portal](apps/portal/README.md)). The Node version and remaining toolchain are still open; see [open decisions](docs/decisions.md). `src/.gitkeep` files preserve future source directories.
+The root and component manifests declare a private npm workspace. Packages run on Node ≥ 22.18 without a build step (built-in TypeScript type stripping); see [open decisions](docs/decisions.md). The portal is a Next.js design shell built with the Astryx design system (`npm run dev -w @dottext/portal`; see [apps/portal](apps/portal/README.md)). `src/.gitkeep` files preserve future source directories.
+
+```bash
+npm install
+npm test            # node:test suites for packages
+npm run typecheck   # TypeScript 7 over packages and scripts
+npm run collect -- --list
+npm run collect -- --source banrep-repositorio --since 2026-10-17
+```
+
+Collection output goes to `.data/` (gitignored). See [scripts](scripts/README.md) for options and exit codes.
 
 Working defaults are TypeScript, Next.js, Hono, Node workers, PostgreSQL/pgvector, GCP, LangGraph, and LangSmith. These are subject to validation. Model versions, auth, region, database size, live search, source permissions, and telemetry remain open. This scaffold creates no cloud resources, subscriptions, or scheduled automations.
 

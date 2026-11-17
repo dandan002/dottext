@@ -1,0 +1,19 @@
+# banrep-repositorio — Repositorio Banrep (DSpace OAI-PMH)
+
+| Field | Value |
+| --- | --- |
+| Source ID / publisher | `banrep-repositorio` / Banco de la República institutional repository |
+| Country / language | Colombia / Spanish, with English titles, subject terms, and English-language papers/reports |
+| Status | **Validating** — live run stored 13 documents; gated by the same bot protection as the website |
+| Discovery endpoint and method | OAI-PMH 2.0 at `https://repositorio.banrep.gov.co/server/oai/request` (`Identify`: earliest datestamp 1982-03-01, second granularity). `ListRecords&metadataPrefix=oai_dc&from=…&until=…` over the whole repository (245 sets). Datestamps move when a record changes (observed: 30 records changed 2026-10-15…11-14), so `from` gives incremental harvests. `robots.txt` disallows `/server` for crawlers; OAI-PMH is a harvesting protocol and is requested at low rate — owner to confirm this reading. |
+| Article and attachment extraction | `oai_dc`: title (Spanish first, English as `alternateTitles`), creators, subjects (both languages, untagged), abstract → standfirst, `dc:type`, handle URL. Files from one `GetRecord&metadataPrefix=ore` per new/changed record (title, MIME type, byte length), e.g. the October 2026 Monetary Policy Report PDF (11.4 MB) plus charts and forecast tables. Records without a title yet are skipped with a note. |
+| Publication/modification/event time parsing | DSpace emits accession, availability, and issue dates all as `dc:date`. Only date-only values are the issued (publication) date (year/month/day precision). The earliest timestamped value is labeled `repository_accessioned`; the header datestamp `repository_record_datestamp`. Neither is publication or document modification. Observed quirk kept as-is: one record's issued date is later than its accession. |
+| First-seen/collection handling | As for all sources: `firstSeenAt` and `collectedAt` are ours and separate. Older reports re-stamped upstream are first seen now with their original issued date (e.g. a September 2025 credit report). |
+| Actual history range and gaps | Repository holds decades of publications; only the 2026-10-17…11-17 window was harvested (23 changed records; 13 stored, 10 pending retry). |
+| Access/retention terms and supporting references | Same [legal notice](https://www.banrep.gov.co/en/legal-notice) as the website. |
+| Permitted full text / excerpt / metadata / snapshots | Abstracts stored as `excerpt`. Full text would come from PDFs, but bitstream downloads returned a Radware captcha page on 2026-11-17. |
+| Duplicate and correction behavior | Spanish and English editions of some reports are separate records (e.g. *Informe de Política Monetaria – Octubre de 2026* and *Monetary Policy Report – October 2026*) with no explicit link; linking is future work. Content-hash revisions as elsewhere; attachment-only changes do not create revisions. |
+| Failure, retry, and rate behavior | `noRecordsMatch` = quiet success; other OAI errors fail the page. ORE failure fails the item (kept pending) rather than storing it without files. Radware challenged OAI after ~14 requests on 2026-11-17; client uses 10 s spacing, 10 requests/run, breaker after 2 challenges. |
+| Validation fixtures and run evidence | `packages/connectors/test/fixtures/oai/*` (synthetic records, real crosswalk quirks). Live run 2026-11-17: 1 page, 26 records listed, 23 actionable, **13 stored** (2 Monetary Policy Reports, 3 financial-stability, 7 reports, 1 working paper; 50 file links), 10 pending after challenges; status `partial`. |
+| Validation date / owner | 2026-11-17 / owner pending |
+| Activation decision | Pending owner confirmation of storage policy and OAI use; allowlisting request together with `banrep-web` ([draft](../outreach/banrep-access-request.md), not sent; it also asks about OAI use and storage). |
